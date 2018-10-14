@@ -50,3 +50,24 @@ def product_validator(k):
         if i not in k.keys():
             msg = 'Please provide the {} of the product'.format(i)
             abort(400, msg)
+
+
+def sales_validator(k):
+    """
+    Sales user input validator
+    """
+
+    pay_load = ['number']
+    for i in k.keys():
+        if i not in pay_load:
+            msg = 'Please provide the number of pruducts only'
+            abort(400, msg)
+    if 'number' not in k.keys():
+        msg = 'Please provide the number of products'
+        abort(400, msg)
+    for i in k.values():
+        try:
+            int(i)
+        except BaseException:
+            msg = 'The number of products should be a number'
+            abort(406, msg)

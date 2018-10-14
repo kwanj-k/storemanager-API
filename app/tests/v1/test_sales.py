@@ -20,13 +20,18 @@ class TestProducts(Settings):
         "inventory": 24,
         "price": 165
     }
+    s_data = {
+        "number":45
+    }
 
     def test_make_sale(self):
         """Test for the make sale endpoint."""
         self.app.post(p_url,
                       data=json.dumps(self.p_data),
                       content_type='application/json')
-        res = self.app.post("/api/v1/products/1")
+        res = self.app.post("/api/v1/products/1",
+                            data = json.dumps(self.s_data),
+                            content_type ='application/json')
         self.assertEqual(res.status_code, 201)
 
     def test_get_all_sales(self):

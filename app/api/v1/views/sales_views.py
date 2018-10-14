@@ -20,9 +20,8 @@ v1 = SaleEtn.v1
 
 
 @v1.route('/')
-class Products(Resource):
+class Sales(Resource):
     @v1.expect(new_s)
-    @v1.marshal_with(new_s,code=201)
     def post(self,id):
         json_data = request.get_json(force=True)
         sales_validator(json_data)
@@ -33,7 +32,6 @@ class Products(Resource):
             res = abort(404,msg)
         price = product.price
         amount = number * price
-        print(amount)
         if product.inventory < number:
             d = product.inventory
             msg = 'There are only {} {} available'.format(d,product.name)

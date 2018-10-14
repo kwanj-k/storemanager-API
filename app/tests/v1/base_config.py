@@ -9,6 +9,7 @@ import json
 
 # Local application imports
 from app.apps import create_app
+from app.api.v1.models.db import Db
 
 config_name = "testing"
 app = create_app(config_name)
@@ -22,3 +23,8 @@ class Settings(unittest.TestCase):
     def setUp(self):
         app.testing = True
         self.app = app.test_client()
+
+    def tearDown(self):
+        Db.products = []
+        Db.sales = []
+        
