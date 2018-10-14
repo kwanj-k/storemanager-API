@@ -18,5 +18,5 @@ v1 = api.namespace(
     'v1',
     description='Store manager Api without persitent data storage')
 
-api.add_namespace(pro_routes, path="/products")
-api.add_namespace(sales_routes, path="/products/<int:id>")
+api.add_namespace(pro_routes, path="/products/")
+api.add_namespace(sales_routes, path="/sales")

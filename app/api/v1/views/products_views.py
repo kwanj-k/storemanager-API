@@ -10,16 +10,18 @@ from flask_restplus import Resource, Namespace
 
 # Local application imports
 from app.api.v1.models.products import Product
+from app.api.v1.models.sales import Sale
 from app.api.v1.models.db import Db
-from app.api.v1.views.expect import ProductEtn
-from app.api.common.validators import product_validator
+from app.api.v1.views.expect import ProductEtn,SaleEtn
+from app.api.common.validators import product_validator,sales_validator
 
 
 new_p = ProductEtn().products
+
 v1 = ProductEtn().v1
 
 
-@v1.route('/')
+@v1.route('')
 class Products(Resource):
     @v1.expect(new_p)
     def post(self):
@@ -35,6 +37,7 @@ class Products(Resource):
         Db.products.append(new_product)
         res = new_product.json_dump()
         return {"status": "Success!", "data": res}, 201
+
     def get(self):
         products = Db.products
         res = [p.json_dump() for p in products]
@@ -43,9 +46,34 @@ class Products(Resource):
             res = abort(404,msg)
         return res
 
+new_s = SaleEtn().sales
+@v1.route('<int:id>/')
+class Products1(Resource):
 
-@v1.route('/<int:id>')
-class ProductsDetails(Resource):
+    @v1.expect(new_s)
+    def post(self,id):
+        json_data = request.get_json(force=True)
+        sales_validator(json_data)
+        number = json_data['number']
+        product = Db.get_p_by_id(id)
+        if not product:
+            msg = 'Product does not exist'
+            res = abort(404,msg)
+        price = product.price
+        amount = number * price
+        print(amount)
+        if product.inventory < number:
+            d = product.inventory
+            msg = 'There are only {} {} available'.format(d,product.name)
+            return abort(400,msg)
+        new_sale = Sale(product.name,number,amount)
+        Db.sales.append(new_sale)
+        res1 = new_sale.json_dump()
+        res =  {"status": "Success!", "data": res1}, 201
+        new_inv = product.inventory - number
+        product.inventory = new_inv
+        return res
+
     def get(self,id):
         product = Db.get_p_by_id(id)
         if product:

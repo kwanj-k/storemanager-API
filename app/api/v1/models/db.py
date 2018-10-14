@@ -27,3 +27,12 @@ class Db:
         for p in cls.products:
             if p.name == name:
                 return p
+
+    """
+    class method to get a sale record by id
+    """
+    @classmethod
+    def get_s_by_id(cls, id):
+        for s in cls.sales:
+            if s.id == id:
+                return s

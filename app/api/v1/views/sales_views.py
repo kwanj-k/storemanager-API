@@ -19,7 +19,7 @@ new_s = SaleEtn().sales
 v1 = SaleEtn.v1
 
 
-@v1.route('/')
+@v1.route('products/<int:id>')
 class Sales(Resource):
     @v1.expect(new_s)
     def post(self,id):
@@ -32,6 +32,7 @@ class Sales(Resource):
             res = abort(404,msg)
         price = product.price
         amount = number * price
+        print(amount)
         if product.inventory < number:
             d = product.inventory
             msg = 'There are only {} {} available'.format(d,product.name)
@@ -43,3 +44,20 @@ class Sales(Resource):
         new_inv = product.inventory - number
         product.inventory = new_inv
         return res
+
+@v1.route('/<int:id>')
+class SalesRecords(Resource):
+    def get(self,id):
+        sale = Db.get_s_by_id(id)
+        if sale:
+            sk = sale.json_dump()
+            return {"status":"Success!","data":sk},200
+        msg = 'That record does not exist'
+        return abort(404,msg)
+
+@v1.route('')
+class SalesRecord(Resource):
+    def get(self):
+        sales = Db.sales
+        s_list = [s.json_dump() for s in sales]
+        return {"status":"Success!","data":s_list},200
