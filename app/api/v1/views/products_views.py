@@ -103,7 +103,7 @@ class Products1(Resource):
             msg = 'Product does not exist'
             abort(404,msg)
         Db.products.remove(p)
-        return {"message":"Deleted!","data":p.json_dump()},200
+        return {"status":"Deleted!","data":p.json_dump()},200
 
         
         

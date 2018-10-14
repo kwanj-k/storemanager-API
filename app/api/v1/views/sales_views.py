@@ -28,6 +28,28 @@ class SalesRecords(Resource):
         msg = 'That record does not exist'
         return abort(404,msg)
 
+    def delete(self,id):
+        sale = Db.get_s_by_id(id)
+        if sale:
+            sk = sale.json_dump()
+            Db.sales.remove(sale)
+            return {"status":"Deleted!","data":sk},200
+        msg = 'That record does not exist'
+        return abort(404,msg)
+
+    @v1.expect(new_s)
+    def put(self,id):
+        s = Db.get_s_by_id(id)
+        if not s:
+            msg = 'Sale does not exist'
+            abort(404,msg)
+        json_data = request.get_json(force=True)
+        sales_validator(json_data)
+        number = json_data['number']
+        s.number = number
+        return {"status":"Success!","data":s.json_dump()},200
+
+
 @v1.route('/')
 class SalesRecord(Resource):
     def get(self):
