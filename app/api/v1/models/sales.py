@@ -25,6 +25,6 @@ class Sale:
         """
         return dict(
             product=self.product,
-            number = self.number,
-            amount = self.amount
+            number=self.number,
+            amount=self.amount
         )

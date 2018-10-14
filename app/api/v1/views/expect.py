@@ -10,7 +10,7 @@ class ProductEtn:
     """
     v1 = Namespace(
         'products',
-        description='Store manager Api without persitent data storage')
+        description='Products related endpoints')
     products = v1.model('Product', {
         'name': fields.String(required=True, description='The name of the product'),
         'inventory': fields.Integer(required=True, description='The number of the given products'),
@@ -23,7 +23,7 @@ class SaleEtn:
     """
     v1 = Namespace(
         'sales',
-        description='Store manager Api without persitent data storage')
+        description='Sales related endpoints')
     sales = v1.model('Sale', {
         'product': fields.String(description='The name of the product'),
         'number': fields.Integer(required=True,description='The number of the given products'),
