@@ -24,6 +24,9 @@ class TestProducts(Settings):
     s_data = {
         "number": 3
     }
+    ns_data = {
+        "number": 12
+    }
 
     def test_make_sale(self):
         """Test for the make sale endpoint."""
@@ -59,4 +62,32 @@ class TestProducts(Settings):
                       content_type='application/json')
         s = Db.get_s_by_product('monster')
         res = self.app.get("/api/v1/sales/{}".format(s.id))
+        self.assertEqual(res.status_code, 200)
+
+    def test_sale_delete(self):
+        """Test for the delete sale by id endpoint."""
+        self.app.post(p_url,
+                      data=json.dumps(self.p_data),
+                      content_type='application/json')
+        p = Db.get_product('monster')
+        self.app.post("/api/v1/products/{}".format(p.id),
+                      data=json.dumps(self.s_data),
+                      content_type='application/json')
+        s = Db.get_s_by_product('monster')
+        res = self.app.delete("/api/v1/sales/{}".format(s.id))
+        self.assertEqual(res.status_code, 200)
+
+    def test_sale_update(self):
+        """Test for the update sale by id endpoint."""
+        self.app.post(p_url,
+                      data=json.dumps(self.p_data),
+                      content_type='application/json')
+        p = Db.get_product('monster')
+        self.app.post("/api/v1/products/{}".format(p.id),
+                      data=json.dumps(self.s_data),
+                      content_type='application/json')
+        s = Db.get_s_by_product('monster')
+        res = self.app.put("/api/v1/sales/{}".format(s.id),
+                        data=json.dumps(self.ns_data),
+                      content_type='application/json')
         self.assertEqual(res.status_code, 200)
