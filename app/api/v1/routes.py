@@ -1,12 +1,20 @@
-from flask import Blueprint,request
-from flask_restplus import Api,Resource,fields
+"""
+This file contains all the version one routes
+"""
+
+# Third party imports
+from flask import Blueprint, request
+from flask_restplus import Api, Resource, fields
 
 
-from .views.products_views import v1 as p_r
+# Local application imports
+from .views.products_views import v1 as pro_routes
 
 
 v_1 = Blueprint('v_1', __name__, url_prefix="/api/v1")
 api = Api(v_1)
-v1 = api.namespace('v1',description = 'Store manager Api without persitent data storage')
+v1 = api.namespace(
+    'v1',
+    description='Store manager Api without persitent data storage')
 
-api.add_namespace(p_r, path="/products")
+api.add_namespace(pro_routes, path="/products")
