@@ -78,6 +78,7 @@ class Products1(Resource):
             abort(404,msg)
         return {"status":"Success","data":product.json_dump()}
 
+    @v1.expect(new_p)
     def put(self,id):
         p = Db.get_p_by_id(id)
         if not p:
@@ -95,5 +96,14 @@ class Products1(Resource):
         if price:
             p.price = price
         return {"status":"Success!","data":p.json_dump()}
+
+    def delete(self,id):
+        p = Db.get_p_by_id(id)
+        if not p:
+            msg = 'Product does not exist'
+            abort(404,msg)
+        Db.products.remove(p)
+        return {"message":"Deleted!","data":p.json_dump()}
+
         
         
