@@ -42,8 +42,3 @@ class Db:
         for s in cls.sales:
             if s.product == product:
                 return s
-
-    @classmethod
-    def db_clean(cls):
-        cls.sales = []
-        cls.products = []

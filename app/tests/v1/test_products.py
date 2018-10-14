@@ -44,3 +44,27 @@ class TestProducts(Settings):
         p = Db.get_product('monster')
         res = self.app.get("/api/v1/products/{}".format(p.id))
         self.assertEqual(res.status_code, 200)
+
+    def test_product_update(self):
+        """Test for the product update endpoint."""
+        self.app.post(p_url,
+                      data=json.dumps(self.data),
+                      content_type='application/json')
+        p = Db.get_product('monster')
+        url = "/api/v1/products/{}".format(p.id)
+        res = self.app.put(url,
+                        data=json.dumps(self.data),
+                        content_type='application/json')
+        self.assertEqual(res.status_code, 200)
+
+    def test_product_delete(self):
+        """Test for the product delete endpoint."""
+        self.app.post(p_url,
+                      data=json.dumps(self.data),
+                      content_type='application/json')
+        p = Db.get_product('monster')
+        url = "/api/v1/products/{}".format(p.id)
+        res = self.app.delete(url,
+                        data=json.dumps(self.data),
+                        content_type='application/json')
+        self.assertEqual(res.status_code, 200)

@@ -95,7 +95,7 @@ class Products1(Resource):
             p.inventory = inventory
         if price:
             p.price = price
-        return {"status":"Success!","data":p.json_dump()}
+        return {"status":"Success!","data":p.json_dump()},200
 
     def delete(self,id):
         p = Db.get_p_by_id(id)
@@ -103,7 +103,7 @@ class Products1(Resource):
             msg = 'Product does not exist'
             abort(404,msg)
         Db.products.remove(p)
-        return {"message":"Deleted!","data":p.json_dump()}
+        return {"message":"Deleted!","data":p.json_dump()},200
 
         
         
