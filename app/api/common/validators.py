@@ -51,6 +51,32 @@ def product_validator(k):
             msg = 'Please provide the {} of the product'.format(i)
             abort(400, msg)
 
+def product_update_validator(k):
+    """
+    Product update user input validator
+    """
+
+    pay_load = ['name', 'inventory', 'price']
+    for i in k.keys():
+        if i not in pay_load:
+            msg = 'Please provide name,inventory and price of the product only'
+            abort(400, msg)
+    for i, v in k.items():
+        if i == 'name':
+            if v.isdigit():
+                msg = 'Name of the product can not be an integer'
+                abort(400, msg)
+            s = "".join(v.split())
+            if s == "":
+                msg = 'The product {} cannot be empty'.format(i)
+                abort(406, msg)
+        if i == 'inventory' or i == 'price':
+            try:
+                int(v)
+            except BaseException:
+                msg = 'Please make sure the {} is a number'.format(i)
+                abort(400, msg)
+
 
 def sales_validator(k):
     """

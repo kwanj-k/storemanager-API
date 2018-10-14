@@ -13,7 +13,7 @@ from app.api.v1.models.products import Product
 from app.api.v1.models.sales import Sale
 from app.api.v1.models.db import Db
 from app.api.v1.views.expect import ProductEtn,SaleEtn
-from app.api.common.validators import product_validator,sales_validator
+from app.api.common.validators import product_validator,sales_validator,product_update_validator
 
 
 new_p = ProductEtn().products
@@ -77,4 +77,23 @@ class Products1(Resource):
             msg = 'Product does not exist'
             abort(404,msg)
         return {"status":"Success","data":product.json_dump()}
+
+    def put(self,id):
+        p = Db.get_p_by_id(id)
+        if not p:
+            msg = 'Product does not exist'
+            abort(404,msg)
+        json_data = request.get_json(force=True)
+        product_update_validator(json_data)
+        name = json_data['name']
+        inventory = json_data['inventory']
+        price = json_data['price']
+        if name:
+            p.name = name
+        if inventory:
+            p.inventory = inventory
+        if price:
+            p.price = price
+        return {"status":"Success!","data":p.json_dump()}
+        
         
