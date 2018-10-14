@@ -29,6 +29,9 @@ class TestProducts(Settings):
 
     def test_get_all_products(self):
         """Test for the get all products endpoint."""
+        self.app.post(p_url,
+                        data=json.dumps(self.data),
+                        content_type='application/json')
         res = self.app.get(p_url)
         self.assertEqual(res.status_code, 200)
 
