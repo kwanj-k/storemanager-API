@@ -26,4 +26,3 @@ class Settings(unittest.TestCase):
     def tearDown(self):
         Db.products = []
         Db.sales = []
-        

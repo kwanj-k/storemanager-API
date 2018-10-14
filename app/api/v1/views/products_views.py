@@ -43,41 +43,38 @@ class Products(Resource):
         res = [p.json_dump() for p in products]
         if len(products) < 1:
             msg = 'There are no products at this time'
-            res = abort(404,msg)
+            abort(404,msg)
         return res
 
 new_s = SaleEtn().sales
-@v1.route('<int:id>/')
+@v1.route('<int:id>')
 class Products1(Resource):
-
     @v1.expect(new_s)
     def post(self,id):
         json_data = request.get_json(force=True)
         sales_validator(json_data)
         number = json_data['number']
         product = Db.get_p_by_id(id)
-        if not product:
-            msg = 'Product does not exist'
-            res = abort(404,msg)
-        price = product.price
-        amount = number * price
-        print(amount)
-        if product.inventory < number:
-            d = product.inventory
-            msg = 'There are only {} {} available'.format(d,product.name)
-            return abort(400,msg)
-        new_sale = Sale(product.name,number,amount)
-        Db.sales.append(new_sale)
-        res1 = new_sale.json_dump()
-        res =  {"status": "Success!", "data": res1}, 201
-        new_inv = product.inventory - number
-        product.inventory = new_inv
-        return res
+        if  product:
+            price = product.price
+            amount = number * price
+            if product.inventory < number:
+                d = product.inventory
+                msg = 'There are only {} {} available'.format(d,product.name)
+                return abort(400,msg)
+            new_sale = Sale(product.name,number,amount)
+            Db.sales.append(new_sale)
+            res1 = new_sale.json_dump()
+            new_inv = product.inventory - number
+            product.inventory = new_inv
+            return {"status": "Success!", "data": res1}, 201
+        msg = 'Product does not exist'
+        return {"message":msg},404
 
     def get(self,id):
         product = Db.get_p_by_id(id)
-        if product:
-            return {"status":"Success","data":product.json_dump()}
-        msg = 'Product does not exist'
-        res = abort(404,msg)
-        return res
+        if not product:
+            msg = 'Product does not exist'
+            abort(404,msg)
+        return {"status":"Success","data":product.json_dump()}
+        

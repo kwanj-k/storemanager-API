@@ -6,6 +6,7 @@ import json
 
 # Local application imports
 from .base_config import Settings
+from app.api.v1.models.db import Db
 
 s_url = "/api/v1/sales"
 p_url = "/api/v1/products"
@@ -21,7 +22,7 @@ class TestProducts(Settings):
         "price": 165
     }
     s_data = {
-        "number":45
+        "number": 3
     }
 
     def test_make_sale(self):
@@ -29,13 +30,21 @@ class TestProducts(Settings):
         self.app.post(p_url,
                       data=json.dumps(self.p_data),
                       content_type='application/json')
-        res = self.app.post("/api/v1/products/1",
-                            data = json.dumps(self.s_data),
-                            content_type ='application/json')
+        p = Db.get_product('monster')
+        res = self.app.post("/api/v1/products/{}".format(p.id),
+                            data=json.dumps(self.s_data),
+                            content_type='application/json')
         self.assertEqual(res.status_code, 201)
 
     def test_get_all_sales(self):
         """Test for the get all sales endpoint."""
+        self.app.post(p_url,
+                      data=json.dumps(self.p_data),
+                      content_type='application/json')
+        p = Db.get_product('monster')
+        self.app.post("/api/v1/products/{}".format(p.id),
+                      data=json.dumps(self.s_data),
+                      content_type='application/json')
         res = self.app.get(s_url)
         self.assertEqual(res.status_code, 200)
 
@@ -44,6 +53,10 @@ class TestProducts(Settings):
         self.app.post(p_url,
                       data=json.dumps(self.p_data),
                       content_type='application/json')
-        self.app.post("/api/v1/products/1")
-        res = self.app.get("/api/v1/sales/1")
+        p = Db.get_product('monster')
+        self.app.post("/api/v1/products/{}".format(p.id),
+                      data=json.dumps(self.s_data),
+                      content_type='application/json')
+        s = Db.get_s_by_product('monster')
+        res = self.app.get("/api/v1/sales/{}".format(s.id))
         self.assertEqual(res.status_code, 200)

@@ -36,3 +36,14 @@ class Db:
         for s in cls.sales:
             if s.id == id:
                 return s
+
+    @classmethod
+    def get_s_by_product(cls, product):
+        for s in cls.sales:
+            if s.product == product:
+                return s
+
+    @classmethod
+    def db_clean(cls):
+        cls.sales = []
+        cls.products = []

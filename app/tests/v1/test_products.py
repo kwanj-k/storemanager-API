@@ -6,6 +6,7 @@ import json
 
 # Local application imports
 from .base_config import Settings
+from app.api.v1.models.db import Db
 
 p_url = "/api/v1/products"
 
@@ -30,8 +31,8 @@ class TestProducts(Settings):
     def test_get_all_products(self):
         """Test for the get all products endpoint."""
         self.app.post(p_url,
-                        data=json.dumps(self.data),
-                        content_type='application/json')
+                      data=json.dumps(self.data),
+                      content_type='application/json')
         res = self.app.get(p_url)
         self.assertEqual(res.status_code, 200)
 
@@ -40,5 +41,6 @@ class TestProducts(Settings):
         self.app.post(p_url,
                       data=json.dumps(self.data),
                       content_type='application/json')
-        res = self.app.get("/api/v1/products/1")
+        p = Db.get_product('monster')
+        res = self.app.get("/api/v1/products/{}".format(p.id))
         self.assertEqual(res.status_code, 200)

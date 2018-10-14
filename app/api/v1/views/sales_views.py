@@ -17,34 +17,7 @@ from app.api.common.validators import sales_validator
 
 new_s = SaleEtn().sales
 v1 = SaleEtn.v1
-
-
-@v1.route('products/<int:id>')
-class Sales(Resource):
-    @v1.expect(new_s)
-    def post(self,id):
-        json_data = request.get_json(force=True)
-        sales_validator(json_data)
-        number = json_data['number']
-        product = Db.get_p_by_id(id)
-        if not product:
-            msg = 'Product does not exist'
-            res = abort(404,msg)
-        price = product.price
-        amount = number * price
-        print(amount)
-        if product.inventory < number:
-            d = product.inventory
-            msg = 'There are only {} {} available'.format(d,product.name)
-            return abort(400,msg)
-        new_sale = Sale(product.name,number,amount)
-        Db.sales.append(new_sale)
-        res1 = new_sale.json_dump()
-        res =  {"status": "Success!", "data": res1}, 201
-        new_inv = product.inventory - number
-        product.inventory = new_inv
-        return res
-
+    
 @v1.route('/<int:id>')
 class SalesRecords(Resource):
     def get(self,id):
@@ -55,9 +28,12 @@ class SalesRecords(Resource):
         msg = 'That record does not exist'
         return abort(404,msg)
 
-@v1.route('')
+@v1.route('/')
 class SalesRecord(Resource):
     def get(self):
         sales = Db.sales
+        if len(sales) < 1:
+            msg = 'There are no sale records'
+            return abort(404,msg)
         s_list = [s.json_dump() for s in sales]
         return {"status":"Success!","data":s_list},200
