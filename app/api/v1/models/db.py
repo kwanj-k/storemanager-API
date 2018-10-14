@@ -8,6 +8,7 @@ class Db:
     Db class contains all the lists of different models
     """
     products = []
+    sales = []
 
     """
     class method to get a product by id

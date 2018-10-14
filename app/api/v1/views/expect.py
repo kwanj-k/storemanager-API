@@ -16,3 +16,16 @@ class ProductEtn:
         'inventory': fields.Integer(required=True, description='The number of the given products'),
         'price': fields.Integer(required=True, description='The price of the product')
     })
+
+class SaleEtn:
+    """
+    Sale model
+    """
+    v1 = Namespace(
+        'sales',
+        description='Store manager Api without persitent data storage')
+    sales = v1.model('Sale', {
+        'product': fields.String(description='The name of the product'),
+        'number': fields.Integer(required=True,description='The number of the given products'),
+        'amount': fields.Integer(description='The cost of the given number of products')
+    })
