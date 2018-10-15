@@ -36,3 +36,33 @@ class Login(Resource):
             abort(400,msg)
         access_token = create_access_token(identity=json_data['email'])
         return {"status":"Success!","token":access_token},200
+
+
+@v1.route('admin')
+class AddAdmin(Resource):
+    @jwt_required
+    @v1.expect(user_login)
+    def post(self):
+        """
+        Add Admin
+        """
+        json_data = request.get_json(force=True)
+        login_validator(json_data)
+        email = get_jwt_identity()
+        user = Db.get_user(email=email)
+        store_id = 1
+        if 'username' in json_data:
+            username = json_data['username']
+        username = None
+        user_reg = Admin(store_id,
+                    username,
+                    json_data['email'],
+                    json_data['password'])
+        newad =Db.get_user(json_data['email'])
+        # if newad.role == 1:
+        #     return {"message":"User is Admin already"},406
+        for i,item in enumerate(Db.users):
+            if item==newad:
+                Db.users[i]= user_reg
+        Db.users.append(user_reg)
+        return {"status":"Success!","data": user_reg.json_dump()}
