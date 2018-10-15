@@ -6,19 +6,6 @@ File with all user input validation methods
 from flask import abort
 
 
-def space_stripper(k):
-    """
-    Method to remove white space from inputs
-    """
-
-    for i, v in k.items():
-        try:
-            stripped = "".join(v.split())
-            if stripped == "":
-                msg = 'The field {} cannot be empty'.format(i)
-                abort(406, msg)
-        except BaseException:
-            continue
 
 
 def product_validator(k):
@@ -33,19 +20,17 @@ def product_validator(k):
             abort(400, msg)
     for i, v in k.items():
         if i == 'name':
-            if v.isdigit():
+            if isinstance(v, int):
                 msg = 'Name of the product can not be an integer'
-                abort(400, msg)
+                abort(406, msg)
             s = "".join(v.split())
             if s == "":
                 msg = 'The product {} cannot be empty'.format(i)
                 abort(406, msg)
         if i == 'inventory' or i == 'price':
-            try:
-                int(v)
-            except BaseException:
+            if not isinstance(v, int):
                 msg = 'Please make sure the {} is a number'.format(i)
-                abort(400, msg)
+                abort(406, msg)
     for i in pay_load:
         if i not in k.keys():
             msg = 'Please provide the {} of the product'.format(i)
@@ -63,19 +48,17 @@ def product_update_validator(k):
             abort(400, msg)
     for i, v in k.items():
         if i == 'name':
-            if v.isdigit():
+            if isinstance(v, int):
                 msg = 'Name of the product can not be an integer'
-                abort(400, msg)
+                abort(406, msg)
             s = "".join(v.split())
             if s == "":
                 msg = 'The product {} cannot be empty'.format(i)
                 abort(406, msg)
         if i == 'inventory' or i == 'price':
-            try:
-                int(v)
-            except BaseException:
+            if not isinstance(v, int):
                 msg = 'Please make sure the {} is a number'.format(i)
-                abort(400, msg)
+                abort(406, msg)
 
 
 def sales_validator(k):
@@ -92,8 +75,6 @@ def sales_validator(k):
         msg = 'Please provide the number of products'
         abort(400, msg)
     for i in k.values():
-        try:
-            int(i)
-        except BaseException:
-            msg = 'The number of products should be a number'
+        if not isinstance(i, int):
+            msg = 'Name of the product can not be an integer'
             abort(406, msg)
