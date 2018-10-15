@@ -29,7 +29,15 @@ def new_store_validator(k):
         if gv == "":
             msg = 'The {} can not be empty'.format(i)
             abort(406,msg)
-
+        if i == 'name' or \
+            i == 'category' or i == 'username':
+            if len(i) < 5:
+                msg = 'The {} must have atleast five characters'.format(i)
+                abort(406,msg)
+        if i  == 'password':
+            if len(i) < 8:
+                msg = 'The {} must have atleast eight characters'
+                abort(406,msg)
 
 
 def product_validator(k):
