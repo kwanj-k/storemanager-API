@@ -50,7 +50,7 @@ class AddAdmin(Resource):
         login_validator(json_data)
         email = get_jwt_identity()
         user = Db.get_user(email=email)
-        store_id = 1
+        store_id = user.id
         if 'username' in json_data:
             username = json_data['username']
         username = None
@@ -60,6 +60,36 @@ class AddAdmin(Resource):
                     json_data['password'])
         newad =Db.get_user(json_data['email'])
         # if newad.role == 1:
+        #     return {"message":"User is Admin already"},406
+        for i,item in enumerate(Db.users):
+            if item==newad:
+                Db.users[i]= user_reg
+        Db.users.append(user_reg)
+        return {"status":"Success!","data": user_reg.json_dump()}
+
+
+@v1.route('attendant')
+class AddAttendant(Resource):
+    @jwt_required
+    @v1.expect(user_login)
+    def post(self):
+        """
+        Add Attendant
+        """
+        json_data = request.get_json(force=True)
+        login_validator(json_data)
+        email = get_jwt_identity()
+        user = Db.get_user(email=email)
+        store_id = user.id
+        if 'username' in json_data:
+            username = json_data['username']
+        username = None
+        user_reg = Attendant(store_id,
+                    username,
+                    json_data['email'],
+                    json_data['password'])
+        newad =Db.get_user(json_data['email'])
+        # if newad.role == 3:
         #     return {"message":"User is Admin already"},406
         for i,item in enumerate(Db.users):
             if item==newad:
