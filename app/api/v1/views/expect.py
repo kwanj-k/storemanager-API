@@ -21,6 +21,20 @@ class StoreEtn:
     })
 
 
+class UserEtn:
+    """
+    User login input data expectations
+    """
+    v1 = Namespace(
+        'users',
+        description='Users')
+    users = v1.model('User', {
+        'username': fields.String(description='The name of user'),
+        'email': fields.String(required=True, description='The user"s email address'),
+        'password': fields.String(required=True, description='The user"s password')
+    })
+
+
 class ProductEtn:
     """
     Product input data expectations

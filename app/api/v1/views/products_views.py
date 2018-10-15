@@ -47,10 +47,14 @@ class Products(Resource):
         return res
 
 new_s = SaleEtn().sales
+
 @v1.route('<int:id>')
 class Products1(Resource):
     @v1.expect(new_s)
     def post(self,id):
+        """
+        This endpoint is for making a sale f a given product
+        """
         json_data = request.get_json(force=True)
         sales_validator(json_data)
         number = json_data['number']

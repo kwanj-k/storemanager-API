@@ -32,6 +32,17 @@ class Db:
             if p.name == name:
                 return p
 
+    
+
+    """
+    method to get user by email
+    """
+    @classmethod
+    def get_user(cls, email):
+        for e in cls.users:
+            if e.email == email:
+                return e
+
     """
     class method to get a sale record by id
     """

@@ -9,6 +9,8 @@ import re
 from flask import abort
 
 
+
+
 def new_store_validator(k):
     """
     A create new store user input validator
@@ -46,6 +48,24 @@ def new_store_validator(k):
                 re.match(r"^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$",v):
                 msg = 'Please input a valid email'
                 abort(406,msg)
+
+def login_validator(k):
+    p_l = ['email','password']
+    for i in k.keys():
+        if i not in p_l:
+            msg = 'Please provide email and password only'
+            abort(400, msg)
+    for x in p_l:
+        if x not in k.keys():
+            msg = 'Please provide the {} field'.format(x)
+            abort(400,msg)
+
+    for i,v in k.items():
+        u = "".join(v.split())
+        if u == "":
+            msg = '{} can not be empty'.format(i)
+            abort(406,msg)
+        
 
 
 

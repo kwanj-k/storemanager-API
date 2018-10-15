@@ -25,6 +25,10 @@ class Stores(Resource):
     def post(self):
         json_data = request.get_json(force=True)
         new_store_validator(json_data)
+        check = Db.get_store(json_data['name'])
+        if check:
+            msg = 'Store name is already taken'
+            abort(406,msg)
         new_store= Store(json_data['name'],
                               json_data['category'])
         Db.stores.append(new_store)
