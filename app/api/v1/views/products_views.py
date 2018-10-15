@@ -25,6 +25,9 @@ v1 = ProductEtn().v1
 class Products(Resource):
     @v1.expect(new_p)
     def post(self):
+        """
+        Add a product to the manager
+        """
         json_data = request.get_json(force=True)
         product_validator(json_data)
         p = Db.get_product(json_data['name'])
@@ -39,6 +42,9 @@ class Products(Resource):
         return {"status": "Success!", "data": res}, 201
 
     def get(self):
+        """
+        Get all products
+        """
         products = Db.products
         res = [p.json_dump() for p in products]
         if len(products) < 1:
@@ -53,7 +59,7 @@ class Products1(Resource):
     @v1.expect(new_s)
     def post(self,id):
         """
-        This endpoint is for making a sale f a given product
+        Sell product
         """
         json_data = request.get_json(force=True)
         sales_validator(json_data)
@@ -76,6 +82,9 @@ class Products1(Resource):
         return {"message":msg},404
 
     def get(self,id):
+        """
+        Get a specific product
+        """
         product = Db.get_p_by_id(id)
         if not product:
             msg = 'Product does not exist'
@@ -84,6 +93,9 @@ class Products1(Resource):
 
     @v1.expect(new_p)
     def put(self,id):
+        """
+        Edit a product
+        """
         p = Db.get_p_by_id(id)
         if not p:
             msg = 'Product does not exist'
@@ -102,6 +114,9 @@ class Products1(Resource):
         return {"status":"Success!","data":p.json_dump()},200
 
     def delete(self,id):
+        """
+        Delete a product
+        """
         p = Db.get_p_by_id(id)
         if not p:
             msg = 'Product does not exist'

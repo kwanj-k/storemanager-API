@@ -21,6 +21,9 @@ v1 = SaleEtn.v1
 @v1.route('/<int:id>')
 class SalesRecords(Resource):
     def get(self,id):
+        """
+        Get a specicific sale record
+        """
         sale = Db.get_s_by_id(id)
         if sale:
             sk = sale.json_dump()
@@ -29,6 +32,9 @@ class SalesRecords(Resource):
         return abort(404,msg)
 
     def delete(self,id):
+        """
+        Delete a sale
+        """
         sale = Db.get_s_by_id(id)
         if sale:
             sk = sale.json_dump()
@@ -39,6 +45,9 @@ class SalesRecords(Resource):
 
     @v1.expect(new_s)
     def put(self,id):
+        """
+        Update a sale
+        """
         s = Db.get_s_by_id(id)
         if not s:
             msg = 'Sale does not exist'
@@ -53,6 +62,9 @@ class SalesRecords(Resource):
 @v1.route('/')
 class SalesRecord(Resource):
     def get(self):
+        """
+        Get all sales
+        """
         sales = Db.sales
         if len(sales) < 1:
             msg = 'There are no sale records'

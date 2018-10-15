@@ -13,7 +13,7 @@ s_url = "/api/v1/stores"
 
 class TestStores(Settings):
     data = {
-        "name":"Zanas",
+        "name":"Zanaseee",
         "category":"Botique",
         "username":"kwanj",
         "email":"kwanj@kwanj.com",

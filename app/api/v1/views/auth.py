@@ -24,6 +24,9 @@ v1 = UserEtn().v1
 class Login(Resource):
     @v1.expect(user_login)
     def post(self):
+        """
+        Login
+        """
         json_data = request.get_json(force=True)
         login_validator(json_data)
         u = Db.get_user(json_data['email'])
