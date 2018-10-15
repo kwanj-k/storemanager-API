@@ -1,6 +1,9 @@
 """
 File with all user input validation methods
 """
+#Standard library import
+import re
+
 
 # Third party import
 from flask import abort
@@ -31,13 +34,19 @@ def new_store_validator(k):
             abort(406,msg)
         if i == 'name' or \
             i == 'category' or i == 'username':
-            if len(i) < 5:
+            if len(v) <= 4:
                 msg = 'The {} must have atleast five characters'.format(i)
                 abort(406,msg)
         if i  == 'password':
             if len(i) < 8:
                 msg = 'The {} must have atleast eight characters'
                 abort(406,msg)
+        if i == 'email':
+            if not \
+                re.match(r"^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$",v):
+                msg = 'Please input a valid email'
+                abort(406,msg)
+
 
 
 def product_validator(k):

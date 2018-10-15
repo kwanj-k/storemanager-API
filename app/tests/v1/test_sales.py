@@ -12,7 +12,7 @@ s_url = "/api/v1/sales"
 p_url = "/api/v1/products"
 
 
-class TestProducts(Settings):
+class TestSales(Settings):
     """
     p_data to contain product data
     """
