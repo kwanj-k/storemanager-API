@@ -34,7 +34,7 @@ class Store:
 class User:
     pk = 1
     
-    def __init__(self,username,email,store_id,password):
+    def __init__(self,store_id,username,email,password):
         self.id = User.pk
         self.store_id = store_id
         self.username = username
@@ -45,9 +45,9 @@ class User:
 class SuperAdmin(User):
     role = 0
 
-    def __init__(self, username, email, store_id, password):
-        super().__init__(username=username, 
-            email=email, store_id=store_id, password=password)
+    def __init__(self, store_id,username, email, password):
+        super().__init__( store_id=store_id,username=username, 
+            email=email, password=password)
         self.role = SuperAdmin.role
 
     def json_dump(self):

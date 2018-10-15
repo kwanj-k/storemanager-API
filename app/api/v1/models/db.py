@@ -7,8 +7,12 @@ class Db:
     """
     Db class contains all the lists of different models
     """
+
+    stores = []
+    users = []
     products = []
     sales = []
+    
 
     """
     class method to get a product by id
@@ -41,4 +45,13 @@ class Db:
     def get_s_by_product(cls, product):
         for s in cls.sales:
             if s.product == product:
+                return s
+
+    """
+    method to get store by name
+    """
+    @classmethod
+    def get_store(cls, name):
+        for s in cls.stores:
+            if s.name == name:
                 return s

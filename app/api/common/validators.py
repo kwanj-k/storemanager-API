@@ -6,6 +6,30 @@ File with all user input validation methods
 from flask import abort
 
 
+def new_store_validator(k):
+    """
+    A create new store user input validator
+    """
+
+    p_l = ['name','category','username','email','password']
+    in_k = k.keys()
+    for i in in_k:
+        if i not in p_l:
+            msg = 'Please provide name,category,username,email and password only'
+            abort(400,msg)
+    for i in p_l:
+        if i not in in_k:
+            msg = 'The {} field is missing'.format(i)   
+            abort(406,msg)
+    for i,v in k.items():
+        if not isinstance(v, str):
+            msg = 'The {} field is supposed to be a string'.format(i)
+            abort(406,msg)
+        gv = "".join(v.split())
+        if gv == "":
+            msg = 'The {} can not be empty'.format(i)
+            abort(406,msg)
+
 
 
 def product_validator(k):
