@@ -23,6 +23,7 @@ v1 = SaleEtn.v1
 @v1.route('/<int:id>')
 class SalesRecords(Resource):
 
+    @v1.doc( security='apikey')
     @jwt_required
     @admin_required
     def get(self, id):
@@ -43,6 +44,7 @@ class SalesRecords(Resource):
         msg = 'That record does not exist'
         return abort(404, msg)
 
+    @v1.doc( security='apikey')
     @jwt_required
     @admin_required
     def delete(self, id):
@@ -63,6 +65,7 @@ class SalesRecords(Resource):
         msg = 'That record does not exist'
         return abort(404, msg)
 
+    @v1.doc( security='apikey')
     @jwt_required
     @admin_required
     @v1.expect(new_s)
@@ -89,7 +92,7 @@ class SalesRecords(Resource):
 
 @v1.route('/')
 class SalesRecord(Resource):
-
+    @v1.doc( security='apikey')
     @jwt_required
     @admin_required
     def get(self):

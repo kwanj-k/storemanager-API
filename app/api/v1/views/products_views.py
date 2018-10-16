@@ -24,7 +24,7 @@ v1 = ProductEtn().v1
 
 @v1.route('')
 class Products(Resource):
-
+    @v1.doc( security='apikey')
     @jwt_required
     @admin_required
     @v1.expect(new_p)
@@ -48,6 +48,7 @@ class Products(Resource):
         res = new_product.json_dump()
         return {"status": "Success!", "data": res}, 201
 
+    @v1.doc( security='apikey')
     @jwt_required
     def get(self):
         """
@@ -69,6 +70,7 @@ new_s = SaleEtn().sales
 
 @v1.route('<int:id>')
 class Products1(Resource):
+    @v1.doc( security='apikey')
     @jwt_required
     @v1.expect(new_s)
     def post(self, id):
@@ -98,6 +100,7 @@ class Products1(Resource):
         msg = 'Product does not exist'
         return {"message": msg}, 404
 
+    @v1.doc( security='apikey')
     @jwt_required
     def get(self, id):
         """
@@ -116,6 +119,7 @@ class Products1(Resource):
             abort(404, msg)
         return {"status": "Success", "data": product.json_dump()}, 200
 
+    @v1.doc( security='apikey')
     @jwt_required
     @admin_required
     @v1.expect(new_p)
@@ -146,6 +150,7 @@ class Products1(Resource):
             p.price = price
         return {"status": "Success!", "data": p.json_dump()}, 200
 
+    @v1.doc( security='apikey')
     @jwt_required
     @admin_required
     def delete(self, id):
