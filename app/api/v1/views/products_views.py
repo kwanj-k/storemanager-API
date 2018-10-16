@@ -111,13 +111,10 @@ class Products1(Resource):
         user = Db.get_user(email=email)
         store_id = user.store_id
         p = Db.get_p_by_id(id)
-        product = None
-        if p.store_id == store_id:
-            p = product
-        if product is None:
+        if p.store_id != store_id:
             msg = 'Product does not exist'
             abort(404, msg)
-        return {"status": "Success", "data": product.json_dump()}, 200
+        return {"status": "Success", "data": p.json_dump()}, 200
 
     @v1.doc( security='apikey')
     @jwt_required
@@ -131,10 +128,7 @@ class Products1(Resource):
         email = get_jwt_identity()
         user = Db.get_user(email=email)
         store_id = user.store_id
-        product = None
         if p.store_id != store_id:
-            p = product
-        if p is None:
             msg = 'Product does not exist'
             abort(404, msg)
         json_data = request.get_json(force=True)
@@ -161,10 +155,7 @@ class Products1(Resource):
         email = get_jwt_identity()
         user = Db.get_user(email=email)
         store_id = user.store_id
-        product = None
         if p.store_id != store_id:
-            p = product
-        if p is None:
             msg = 'Product does not exist'
             abort(404, msg)
         Db.products.remove(p)

@@ -35,14 +35,12 @@ class SalesRecords(Resource):
         user = Db.get_user(email=email)
         store_id = user.store_id
         sale = Db.get_s_by_id(id)
-        s = None
         if sale.store_id == store_id:
-            s = sale
-        if s:
-            sk = sale.json_dump()
-            return {"status": "Success!", "data": sk}, 200
-        msg = 'That record does not exist'
-        return abort(404, msg)
+            msg = 'That record does not exist'
+            return abort(404, msg)
+        sk = sale.json_dump()
+        return {"status": "Success!", "data": sk}, 200
+        
 
     @v1.doc( security='apikey')
     @jwt_required
@@ -55,15 +53,13 @@ class SalesRecords(Resource):
         email = get_jwt_identity()
         user = Db.get_user(email=email)
         store_id = user.store_id
-        s = None
-        if sale.store_id == store_id:
-            s = sale
-        if s:
-            sk = sale.json_dump()
-            Db.sales.remove(sale)
-            return {"status": "Deleted!", "data": sk}, 200
-        msg = 'That record does not exist'
-        return abort(404, msg)
+        if sale.store_id != store_id:
+            msg = 'That record does not exist'
+            return abort(404, msg)
+        sk = sale.json_dump()
+        Db.sales.remove(sale)
+        return {"status": "Deleted!", "data": sk}, 200
+        
 
     @v1.doc( security='apikey')
     @jwt_required
@@ -77,10 +73,7 @@ class SalesRecords(Resource):
         email = get_jwt_identity()
         user = Db.get_user(email=email)
         store_id = user.store_id
-        sale = None
-        if s.store_id == store_id:
-            sale = s
-        if sale is not None:
+        if s.store_id != store_id:
             msg = 'Sale does not exist'
             abort(404, msg)
         json_data = request.get_json(force=True)
