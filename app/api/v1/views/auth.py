@@ -41,6 +41,7 @@ class Login(Resource):
 
 @v1.route('admin')
 class AddAdmin(Resource):
+    @v1.doc( security='apikey')
     @jwt_required
     @super_admin_required
     @v1.expect(user_login)
