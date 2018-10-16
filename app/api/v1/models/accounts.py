@@ -61,7 +61,7 @@ class SuperAdmin(User):
         )
 
 class Admin(User):
-    role = 2
+    role = 1
 
     def __init__(self,store_id, username, email, password):
         super().__init__(store_id=store_id, 
@@ -79,7 +79,7 @@ class Admin(User):
         )
 
 class Attendant(User):
-    role = 3
+    role = 2
 
     def __init__(self,store_id, username, email, password):
         super().__init__(store_id=store_id, username=username, email=email, password=password)

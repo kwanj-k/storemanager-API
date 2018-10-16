@@ -49,8 +49,13 @@ class AddAdmin(Resource):
         json_data = request.get_json(force=True)
         login_validator(json_data)
         email = get_jwt_identity()
+        newad =Db.get_user(json_data['email'])
+        if newad and newad.role <= 1:
+            msg = "User is Admin already"
+            abort(406,msg)
         user = Db.get_user(email=email)
-        store_id = 1
+        print(user.json_dump())
+        store_id = user.store_id
         if 'username' in json_data:
             username = json_data['username']
         username = None
@@ -58,9 +63,6 @@ class AddAdmin(Resource):
                     username,
                     json_data['email'],
                     json_data['password'])
-        newad =Db.get_user(json_data['email'])
-        # if newad.role == 1:
-        #     return {"message":"User is Admin already"},406
         for i,item in enumerate(Db.users):
             if item==newad:
                 Db.users[i]= user_reg
@@ -80,7 +82,7 @@ class AddAttendant(Resource):
         login_validator(json_data)
         email = get_jwt_identity()
         user = Db.get_user(email=email)
-        store_id = 1
+        store_id = user.store_id
         if 'username' in json_data:
             username = json_data['username']
         username = None
