@@ -25,6 +25,7 @@ class Product:
         custom json_dump method to return a custom python dict in response
         """
         return dict(
+            id = self.id,
             name=self.name,
             inventory=self.inventory,
             price=self.price
