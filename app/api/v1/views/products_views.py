@@ -6,15 +6,15 @@ This file contains all the product related resources
 # Third party imports
 from flask import request, json, abort
 from flask_restplus import Resource
-from flask_jwt_extended import jwt_required,get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 # Local application imports
 from app.api.v1.models.products import Product
 from app.api.v1.models.sales import Sale
 from app.api.v1.models.db import Db
-from app.api.v1.views.expect import ProductEtn,SaleEtn
-from app.api.common.validators import product_validator,sales_validator,product_update_validator,admin_required
+from app.api.v1.views.expect import ProductEtn, SaleEtn
+from app.api.common.validators import product_validator, sales_validator, product_update_validator, admin_required
 
 
 new_p = ProductEtn().products
@@ -37,11 +37,11 @@ class Products(Resource):
         p = Db.get_product(json_data['name'])
         if p:
             msg = 'Product already exists.Update product inventory instead'
-            abort(406,msg)
+            abort(406, msg)
         email = get_jwt_identity()
         user = Db.get_user(email=email)
         store_id = user.store_id
-        new_product = Product(store_id,json_data['name'],
+        new_product = Product(store_id, json_data['name'],
                               json_data['inventory'],
                               json_data['price'])
         Db.products.append(new_product)
@@ -60,16 +60,18 @@ class Products(Resource):
         res = [p.json_dump() for p in products if p.store_id == store_id]
         if len(products) < 1:
             msg = 'There are no products at this time'
-            abort(404,msg)
+            abort(404, msg)
         return res
 
+
 new_s = SaleEtn().sales
+
 
 @v1.route('<int:id>')
 class Products1(Resource):
     @jwt_required
     @v1.expect(new_s)
-    def post(self,id):
+    def post(self, id):
         """
         Sell product
         """
@@ -80,24 +82,24 @@ class Products1(Resource):
         store_id = user.store_id
         number = json_data['number']
         product = Db.get_p_by_id(id)
-        if  product:
+        if product:
             price = product.price
             amount = number * price
             if product.inventory < number:
                 d = product.inventory
-                msg = 'There are only {} {} available'.format(d,product.name)
-                return abort(400,msg)
-            new_sale = Sale(store_id,product.name,number,amount)
+                msg = 'There are only {} {} available'.format(d, product.name)
+                return abort(400, msg)
+            new_sale = Sale(store_id, product.name, number, amount)
             Db.sales.append(new_sale)
             res1 = new_sale.json_dump()
             new_inv = product.inventory - number
             product.inventory = new_inv
             return {"status": "Success!", "data": res1}, 201
         msg = 'Product does not exist'
-        return {"message":msg},404
+        return {"message": msg}, 404
 
     @jwt_required
-    def get(self,id):
+    def get(self, id):
         """
         Get a specific product
         """
@@ -111,13 +113,13 @@ class Products1(Resource):
             p = product
         if product is None:
             msg = 'Product does not exist'
-            abort(404,msg)
-        return {"status":"Success","data":product.json_dump()},200
+            abort(404, msg)
+        return {"status": "Success", "data": product.json_dump()}, 200
 
     @jwt_required
     @admin_required
     @v1.expect(new_p)
-    def put(self,id):
+    def put(self, id):
         """
         Edit a product
         """
@@ -130,7 +132,7 @@ class Products1(Resource):
             p = product
         if p is None:
             msg = 'Product does not exist'
-            abort(404,msg)
+            abort(404, msg)
         json_data = request.get_json(force=True)
         product_update_validator(json_data)
         name = json_data['name']
@@ -142,11 +144,11 @@ class Products1(Resource):
             p.inventory = inventory
         if price:
             p.price = price
-        return {"status":"Success!","data":p.json_dump()},200
+        return {"status": "Success!", "data": p.json_dump()}, 200
 
     @jwt_required
     @admin_required
-    def delete(self,id):
+    def delete(self, id):
         """
         Delete a product
         """
@@ -159,9 +161,6 @@ class Products1(Resource):
             p = product
         if p is None:
             msg = 'Product does not exist'
-            abort(404,msg)
+            abort(404, msg)
         Db.products.remove(p)
-        return {"status":"Deleted!","data":p.json_dump()},200
-
-        
-        
+        return {"status": "Deleted!", "data": p.json_dump()}, 200

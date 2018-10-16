@@ -7,16 +7,18 @@ Attendant
 """
 
 
-#Third party import
+# Third party import
 from werkzeug.security import generate_password_hash
 
 """
-pk :variable used to generate ids 
+pk :variable used to generate ids
 """
 
+
 class Store:
-    pk  = 1
-    def __init__(self, name,category):
+    pk = 1
+
+    def __init__(self, name, category):
         self.id = Store.pk
         self.name = name
         self.category = category
@@ -27,14 +29,15 @@ class Store:
         custom json_dump method to return a custom python dict in response
         """
         return dict(
-            store_name = self.name,
-            category = self.category
+            store_name=self.name,
+            category=self.category
         )
+
 
 class User:
     pk = 1
-    
-    def __init__(self,store_id,username,email,password):
+
+    def __init__(self, store_id, username, email, password):
         self.id = User.pk
         self.store_id = store_id
         self.username = username
@@ -42,12 +45,13 @@ class User:
         self.password = generate_password_hash(password)
         User.pk += 1
 
+
 class SuperAdmin(User):
     role = 0
 
-    def __init__(self, store_id,username, email, password):
-        super().__init__( store_id=store_id,username=username, 
-            email=email, password=password)
+    def __init__(self, store_id, username, email, password):
+        super().__init__(store_id=store_id, username=username,
+                         email=email, password=password)
         self.role = SuperAdmin.role
 
     def json_dump(self):
@@ -55,17 +59,18 @@ class SuperAdmin(User):
         custom json_dump method to return a custom python dict in response
         """
         return dict(
-            username = self.username,
-            email = self.email,
-            role = 'SuperAdmin'
+            username=self.username,
+            email=self.email,
+            role='SuperAdmin'
         )
+
 
 class Admin(User):
     role = 1
 
-    def __init__(self,store_id, username, email, password):
-        super().__init__(store_id=store_id, 
-            username=username, email=email, password=password)
+    def __init__(self, store_id, username, email, password):
+        super().__init__(store_id=store_id,
+                         username=username, email=email, password=password)
         self.role = Admin.role
 
     def json_dump(self):
@@ -73,16 +78,21 @@ class Admin(User):
         custom json_dump method to return a custom python dict in response
         """
         return dict(
-            username = self.username,
-            email = self.email,
-            role = 'Admin'
+            username=self.username,
+            email=self.email,
+            role='Admin'
         )
+
 
 class Attendant(User):
     role = 2
 
-    def __init__(self,store_id, username, email, password):
-        super().__init__(store_id=store_id, username=username, email=email, password=password)
+    def __init__(self, store_id, username, email, password):
+        super().__init__(
+            store_id=store_id,
+            username=username,
+            email=email,
+            password=password)
         self.role = Attendant.role
 
     def json_dump(self):
@@ -92,7 +102,4 @@ class Attendant(User):
         return dict(
             username=self.username,
             email=self.email,
-            role = 'Attendant')
-
-
-
+            role='Attendant')

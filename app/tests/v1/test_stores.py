@@ -13,25 +13,25 @@ s_url = "/api/v1/stores"
 
 class TestStores(Settings):
     data = {
-        "name":"Zanaseee",
-        "category":"Botique",
-        "username":"kwanj",
-        "email":"kwanj@kwanj.com",
-        "password":"passwordroot"
+        "name": "Zanaseee",
+        "category": "Botique",
+        "username": "kwanj",
+        "email": "kwanj@kwanj.com",
+        "password": "passwordroot"
     }
     unwanted_data = {
-        "name":"Zanas",
-        "category":"Botique",
-        "username":"kwanj",
-        "email":"kwanj@kwanj.com",
-        "password":"passwordroot",
-        "tehdeh":"yreugfrjdk"
+        "name": "Zanas",
+        "category": "Botique",
+        "username": "kwanj",
+        "email": "kwanj@kwanj.com",
+        "password": "passwordroot",
+        "tehdeh": "yreugfrjdk"
     }
     m_data = {
-        "category":"Botique",
-        "username":"kwanj",
-        "email":"kwanj@kwanj.com",
-        "password":"passwordroot"
+        "category": "Botique",
+        "username": "kwanj",
+        "email": "kwanj@kwanj.com",
+        "password": "passwordroot"
     }
 
     def test_store_creation(self):

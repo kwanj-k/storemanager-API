@@ -9,7 +9,7 @@ class Product:
     """
     pk = 1
 
-    def __init__(self,store_id, name, inventory, price):
+    def __init__(self, store_id, name, inventory, price):
         """
         Product constructor
         """

@@ -35,7 +35,7 @@ class TestSales(Settings):
     }
     unwanted_data = {
         "number": 12,
-        "yes":"yes"
+        "yes": "yes"
     }
     no_data = {
     }
@@ -138,14 +138,18 @@ class TestSales(Settings):
                       data=json.dumps(self.s_data),
                       headers=dict(Authorization="Bearer " + token),
                       content_type='application/json')
-        res = self.app.get(s_url,headers=dict(Authorization="Bearer " + token))
+        res = self.app.get(
+            s_url, headers=dict(
+                Authorization="Bearer " + token))
         self.assertEqual(res.status_code, 200)
 
     def test_get_sales_with_no_records(self):
         """Test for the get all sales endpoint."""
         login = self.autheniticate()
         token = json.loads(login.data.decode()).get('token')
-        res = self.app.get(s_url,headers=dict(Authorization="Bearer " + token))
+        res = self.app.get(
+            s_url, headers=dict(
+                Authorization="Bearer " + token))
         self.assertEqual(res.status_code, 404)
 
     def test_get_sale_by_id(self):
@@ -163,7 +167,7 @@ class TestSales(Settings):
                       content_type='application/json')
         s = Db.get_s_by_product('monster')
         res = self.app.get("/api/v1/sales/{}".format(s.id),
-                            headers=dict(Authorization="Bearer " + token))
+                           headers=dict(Authorization="Bearer " + token))
         self.assertEqual(res.status_code, 200)
 
     def test_sale_delete(self):
@@ -181,5 +185,5 @@ class TestSales(Settings):
                       content_type='application/json')
         s = Db.get_s_by_product('monster')
         res = self.app.delete("/api/v1/sales/{}".format(s.id),
-                                headers=dict(Authorization="Bearer " + token),)
+                              headers=dict(Authorization="Bearer " + token),)
         self.assertEqual(res.status_code, 200)

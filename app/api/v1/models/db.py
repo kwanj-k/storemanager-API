@@ -12,7 +12,6 @@ class Db:
     users = []
     products = []
     sales = []
-    
 
     """
     class method to get a product by id
@@ -31,8 +30,6 @@ class Db:
         for p in cls.products:
             if p.name == name:
                 return p
-
-    
 
     """
     method to get user by email

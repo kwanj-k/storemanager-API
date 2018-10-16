@@ -4,7 +4,6 @@ A file to model all input expectations
 from flask_restplus import fields, Namespace
 
 
-
 class StoreEtn:
     """
     Store input data expectations
@@ -48,6 +47,7 @@ class ProductEtn:
         'price': fields.Integer(required=True, description='The price of the product')
     })
 
+
 class SaleEtn:
     """
     Sale model
@@ -57,6 +57,6 @@ class SaleEtn:
         description='Sales related endpoints')
     sales = v1.model('Sale', {
         'product': fields.String(description='The name of the product'),
-        'number': fields.Integer(required=True,description='The number of the given products'),
+        'number': fields.Integer(required=True, description='The number of the given products'),
         'amount': fields.Integer(description='The cost of the given number of products')
     })

@@ -16,22 +16,24 @@ app = create_app(config_name)
 
 s_url = "/api/v1/stores"
 l_url = "/api/v1/login"
+
+
 class Settings(unittest.TestCase):
     """
     Settings class to hold all the similar test config
     """
 
     new_s = {
-        "name":"Zanamoja",
-        "category":"Botique",
-        "username":"kwanj",
-        "email":"kwanj@kwanjt.com",
-        "password":"passwordroot"
+        "name": "Zanamoja",
+        "category": "Botique",
+        "username": "kwanj",
+        "email": "kwanj@kwanjt.com",
+        "password": "passwordroot"
     }
 
     l_data = {
-        "email":"kwanj@kwanjt.com",
-        "password":"passwordroot"
+        "email": "kwanj@kwanjt.com",
+        "password": "passwordroot"
     }
 
     def setUp(self):
@@ -39,12 +41,12 @@ class Settings(unittest.TestCase):
         self.app = app.test_client()
 
     def autheniticate(self):
-        self.app.post(s_url, 
-                data=json.dumps(self.new_s),
-                content_type='application/json')
-        return self.app.post(l_url, 
-                data=json.dumps(self.l_data),
-                content_type='application/json')
+        self.app.post(s_url,
+                      data=json.dumps(self.new_s),
+                      content_type='application/json')
+        return self.app.post(l_url,
+                             data=json.dumps(self.l_data),
+                             content_type='application/json')
 
     def tearDown(self):
         Db.products = []
