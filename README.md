@@ -73,21 +73,34 @@ On Post man:
 
 
 Test the following endpoints:
+### Note
+
+* A super admin can access both admin and attendant routes
+* An admin can access his/her routes and attendant routes only
+* An attendant can only access her routes
+
+
+### Unsrestricted endpoints
 
 | EndPoint                       | Functionality                           |
 | -------------------------------|:---------------------------------------:|
-|            Unrestricted                                                  |
 | POST     /stores               | Create a store                          |
 | POST     /login                | Login a user                            |
-|                                                                          |
-|            Attendants                                                    |
-|                                                                          |
+
+
+### Attendant endpoints
+
+| EndPoint                       | Functionality                           |
+| -------------------------------|:---------------------------------------:|                                                                 
 | GET      /products             | Get all the products                    |
 | GET      /products/Id/         | Get  a product by id                    |
 | POST     /products/Id/         | Sell a product                          |
 |                                                                          |
-|            Admin                                                         |
-|                                                                          |
+
+### Admin endpoints
+
+| EndPoint                       | Functionality                           |
+| -------------------------------|:---------------------------------------:|                                                                 
 | POST     /attendant/           | Add a store attendant                   | 
 | POST     /products/            | Add a product                           | 
 | PUT      /products/Id/         | Update the information of a product     |
@@ -96,9 +109,12 @@ Test the following endpoints:
 | GET      /sales/Id/            | Get a specific sale                     |
 | PUT      /sales/Id/            | Update a specific sale                  |
 | DELETE   /sales/id             | Delete a specific sale                  |
-|                                                                          |
-|           Super Admin                                                    |
-|                                                                          |
+
+
+### Super Admin endpoint
+
+| EndPoint                       | Functionality                           |
+| -------------------------------|:---------------------------------------:|
 | POST     /admin/               | Add an admin                            | 
 
 
