@@ -5,7 +5,8 @@ This file contains all the product related resources
 
 # Third party imports
 from flask import request, json, abort
-from flask_restplus import Resource, Namespace
+from flask_restplus import Resource
+from flask_jwt_extended import jwt_required,get_jwt_identity
 
 
 # Local application imports
@@ -23,6 +24,8 @@ v1 = ProductEtn().v1
 
 @v1.route('')
 class Products(Resource):
+
+    @jwt_required
     @v1.expect(new_p)
     def post(self):
         """
@@ -34,19 +37,26 @@ class Products(Resource):
         if p:
             msg = 'Product already exists.Update product inventory instead'
             abort(406,msg)
-        new_product = Product(json_data['name'],
+        email = get_jwt_identity()
+        user = Db.get_user(email=email)
+        store_id = user.store_id
+        new_product = Product(store_id,json_data['name'],
                               json_data['inventory'],
                               json_data['price'])
         Db.products.append(new_product)
         res = new_product.json_dump()
         return {"status": "Success!", "data": res}, 201
 
+    @jwt_required
     def get(self):
         """
         Get all products
         """
         products = Db.products
-        res = [p.json_dump() for p in products]
+        email = get_jwt_identity()
+        user = Db.get_user(email=email)
+        store_id = user.store_id
+        res = [p.json_dump() for p in products if p.store_id == store_id]
         if len(products) < 1:
             msg = 'There are no products at this time'
             abort(404,msg)
@@ -56,6 +66,7 @@ new_s = SaleEtn().sales
 
 @v1.route('<int:id>')
 class Products1(Resource):
+    @jwt_required
     @v1.expect(new_s)
     def post(self,id):
         """
@@ -63,6 +74,9 @@ class Products1(Resource):
         """
         json_data = request.get_json(force=True)
         sales_validator(json_data)
+        email = get_jwt_identity()
+        user = Db.get_user(email=email)
+        store_id = user.store_id
         number = json_data['number']
         product = Db.get_p_by_id(id)
         if  product:
@@ -72,7 +86,7 @@ class Products1(Resource):
                 d = product.inventory
                 msg = 'There are only {} {} available'.format(d,product.name)
                 return abort(400,msg)
-            new_sale = Sale(product.name,number,amount)
+            new_sale = Sale(store_id,product.name,number,amount)
             Db.sales.append(new_sale)
             res1 = new_sale.json_dump()
             new_inv = product.inventory - number
@@ -81,23 +95,38 @@ class Products1(Resource):
         msg = 'Product does not exist'
         return {"message":msg},404
 
+    @jwt_required
     def get(self,id):
         """
         Get a specific product
         """
-        product = Db.get_p_by_id(id)
-        if not product:
+
+        email = get_jwt_identity()
+        user = Db.get_user(email=email)
+        store_id = user.store_id
+        p = Db.get_p_by_id(id)
+        product = None
+        if p.store_id == store_id:
+            p = product
+        if product is None:
             msg = 'Product does not exist'
             abort(404,msg)
-        return {"status":"Success","data":product.json_dump()}
+        return {"status":"Success","data":product.json_dump()},200
 
+    @jwt_required
     @v1.expect(new_p)
     def put(self,id):
         """
         Edit a product
         """
         p = Db.get_p_by_id(id)
-        if not p:
+        email = get_jwt_identity()
+        user = Db.get_user(email=email)
+        store_id = user.store_id
+        product = None
+        if p.store_id != store_id:
+            p = product
+        if p is None:
             msg = 'Product does not exist'
             abort(404,msg)
         json_data = request.get_json(force=True)
@@ -113,12 +142,19 @@ class Products1(Resource):
             p.price = price
         return {"status":"Success!","data":p.json_dump()},200
 
+    @jwt_required
     def delete(self,id):
         """
         Delete a product
         """
         p = Db.get_p_by_id(id)
-        if not p:
+        email = get_jwt_identity()
+        user = Db.get_user(email=email)
+        store_id = user.store_id
+        product = None
+        if p.store_id != store_id:
+            p = product
+        if p is None:
             msg = 'Product does not exist'
             abort(404,msg)
         Db.products.remove(p)

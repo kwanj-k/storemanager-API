@@ -23,6 +23,9 @@ v1 = StoreEtn().v1
 class Stores(Resource):
     @v1.expect(new_store)
     def post(self):
+        """
+        Create store
+        """
         json_data = request.get_json(force=True)
         new_store_validator(json_data)
         check = Db.get_store(json_data['name'])

@@ -9,11 +9,12 @@ class Product:
     """
     pk = 1
 
-    def __init__(self, name, inventory, price):
+    def __init__(self,store_id, name, inventory, price):
         """
         Product constructor
         """
         self.id = Product.pk
+        self.store_id = store_id
         self.name = name
         self.inventory = inventory
         self.price = price
