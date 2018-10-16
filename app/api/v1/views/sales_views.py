@@ -35,7 +35,7 @@ class SalesRecords(Resource):
         user = Db.get_user(email=email)
         store_id = user.store_id
         sale = Db.get_s_by_id(id)
-        if sale.store_id == store_id:
+        if sale.store_id != store_id:
             msg = 'That record does not exist'
             return abort(404, msg)
         sk = sale.json_dump()

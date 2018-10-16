@@ -133,6 +133,19 @@ class TestProducts(Settings):
                            headers=dict(Authorization="Bearer " + token))
         self.assertEqual(res.status_code, 200)
 
+    def test_get_product_by_id(self):
+        """Test for the get product by id endpoint."""
+        login = self.autheniticate()
+        token = json.loads(login.data.decode()).get('token')
+        self.app.post(p_url,
+                      data=json.dumps(self.data),
+                      headers=dict(Authorization="Bearer " + token),
+                      content_type='application/json')
+        p = Db.get_product('monster')
+        res = self.app.get("/api/v1/products/{}".format(p.id),
+        headers=dict(Authorization="Bearer " + token))
+        self.assertEqual(res.status_code, 200)
+
     def test_get_products_without_any_in_system(self):
         """Test for the get all products endpoint."""
 

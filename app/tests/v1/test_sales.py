@@ -187,3 +187,24 @@ class TestSales(Settings):
         res = self.app.delete("/api/v1/sales/{}".format(s.id),
                               headers=dict(Authorization="Bearer " + token),)
         self.assertEqual(res.status_code, 200)
+
+    def test_sale_update(self):
+        """Test for the update sale by id endpoint."""
+        login = self.autheniticate()
+        token = json.loads(login.data.decode()).get('token')
+        self.app.post(p_url,
+                      data=json.dumps(self.p_data),
+                      headers=dict(Authorization="Bearer " + token),
+                      content_type='application/json')
+        p = Db.get_product('monster')
+        self.app.post("/api/v1/products/{}".format(p.id),
+                      data=json.dumps(self.s_data),
+                       headers=dict(Authorization="Bearer " + token),
+                      content_type='application/json')
+        s = Db.get_s_by_product('monster')
+        res = self.app.put("/api/v1/sales/{}".format(s.id),
+                        data=json.dumps(self.ns_data),
+                        headers=dict(Authorization="Bearer " + token),
+                      content_type='application/json')
+        self.assertEqual(res.status_code, 200)
+
