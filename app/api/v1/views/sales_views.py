@@ -13,7 +13,7 @@ from flask_jwt_extended import jwt_required,get_jwt_identity
 from app.api.v1.models.sales import Sale
 from app.api.v1.models.db import Db
 from app.api.v1.views.expect import SaleEtn
-from app.api.common.validators import sales_validator
+from app.api.common.validators import sales_validator,admin_required
 
 
 new_s = SaleEtn().sales
@@ -21,8 +21,9 @@ v1 = SaleEtn.v1
     
 @v1.route('/<int:id>')
 class SalesRecords(Resource):
-    
+
     @jwt_required
+    @admin_required
     def get(self,id):
         """
         Get a specicific sale record
@@ -42,6 +43,7 @@ class SalesRecords(Resource):
         return abort(404,msg)
 
     @jwt_required
+    @admin_required
     def delete(self,id):
         """
         Delete a sale
@@ -61,6 +63,7 @@ class SalesRecords(Resource):
         return abort(404,msg)
 
     @jwt_required
+    @admin_required
     @v1.expect(new_s)
     def put(self,id):
         """
@@ -87,6 +90,7 @@ class SalesRecords(Resource):
 class SalesRecord(Resource):
 
     @jwt_required
+    @admin_required
     def get(self):
         """
         Get all sales

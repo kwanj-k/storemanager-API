@@ -14,7 +14,7 @@ from app.api.v1.models.products import Product
 from app.api.v1.models.sales import Sale
 from app.api.v1.models.db import Db
 from app.api.v1.views.expect import ProductEtn,SaleEtn
-from app.api.common.validators import product_validator,sales_validator,product_update_validator
+from app.api.common.validators import product_validator,sales_validator,product_update_validator,admin_required
 
 
 new_p = ProductEtn().products
@@ -26,6 +26,7 @@ v1 = ProductEtn().v1
 class Products(Resource):
 
     @jwt_required
+    @admin_required
     @v1.expect(new_p)
     def post(self):
         """
@@ -114,6 +115,7 @@ class Products1(Resource):
         return {"status":"Success","data":product.json_dump()},200
 
     @jwt_required
+    @admin_required
     @v1.expect(new_p)
     def put(self,id):
         """
@@ -143,6 +145,7 @@ class Products1(Resource):
         return {"status":"Success!","data":p.json_dump()},200
 
     @jwt_required
+    @admin_required
     def delete(self,id):
         """
         Delete a product

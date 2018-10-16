@@ -3,12 +3,14 @@ File with all user input validation methods
 """
 #Standard library import
 import re
-
+from functools import wraps
 
 # Third party import
 from flask import abort
+from flask_jwt_extended import get_jwt_identity
 
-
+#Local app imports
+from app.api.v1.models.db import Db
 
 
 def new_store_validator(k):
@@ -139,3 +141,28 @@ def sales_validator(k):
         if not isinstance(i, int):
             msg = 'Name of the product can not be an integer'
             abort(406, msg)
+
+
+def admin_required(f):
+    """ A decorator for restricting certain routes to only admins"""
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        current_user = Db.get_user(email=get_jwt_identity())
+        r = current_user.role
+        if r > 1:
+            msg = "Only administrators can access these resource"
+            abort(406,msg)
+        return f(*args, **kwargs)
+    return decorator
+
+def super_admin_required(f):
+    """ A decorator for restricting certain routes to only superadmin/owner of the store"""
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        current_user = Db.get_user(email=get_jwt_identity())
+        r = current_user.role
+        if r > 0:
+            msg = "Only Super Admin can access these resource"
+            abort(406,msg)
+        return f(*args, **kwargs)
+    return decorator

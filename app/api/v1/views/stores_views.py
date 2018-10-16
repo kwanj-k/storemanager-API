@@ -14,6 +14,7 @@ from app.api.v1.models.db import Db
 from app.api.v1.views.expect import StoreEtn
 from app.api.common.validators import new_store_validator
 
+
 new_store = StoreEtn.stores
 
 v1 = StoreEtn().v1

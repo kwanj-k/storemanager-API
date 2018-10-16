@@ -14,7 +14,7 @@ from flask_jwt_extended import jwt_required,create_access_token,get_jwt_identity
 from app.api.v1.models.accounts import Admin,Attendant
 from app.api.v1.models.db import Db
 from app.api.v1.views.expect import UserEtn
-from app.api.common.validators import login_validator
+from app.api.common.validators import login_validator,admin_required,super_admin_required
 
 user_login = UserEtn().users
 
@@ -41,6 +41,7 @@ class Login(Resource):
 @v1.route('admin')
 class AddAdmin(Resource):
     @jwt_required
+    @super_admin_required
     @v1.expect(user_login)
     def post(self):
         """
@@ -72,6 +73,7 @@ class AddAdmin(Resource):
 @v1.route('attendant')
 class AddAttendant(Resource):
     @jwt_required
+    @admin_required
     @v1.expect(user_login)
     def post(self):
         """
