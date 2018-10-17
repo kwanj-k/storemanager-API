@@ -32,11 +32,19 @@ def common(l,d):
             if gv == "":
                 msg = 'The {} can not be empty'.format(i)
                 abort(406, msg)
-    for x in l:
-        if x not in d.keys():
-            msg = 'Please provide the {} field'.format(x)
-            abort(400, msg)
-
+                
+def commonp(d):
+    
+    #let dict d
+    for i, v in d.items():
+        if i == 'name':
+            if isinstance(v, int):
+                msg = 'Name of the product can not be an integer'
+                abort(406, msg)
+        if i == 'inventory' or i == 'price':
+            if not isinstance(v, int):
+                msg = 'Please make sure the {} is a number'.format(i)
+                abort(406, msg)
 
 
 
@@ -80,15 +88,8 @@ def product_validator(k):
 
     pay_load = ['name', 'inventory', 'price']
     common(pay_load,k)
-    for i, v in k.items():
-        if i == 'name':
-            if isinstance(v, int):
-                msg = 'Name of the product can not be an integer'
-                abort(406, msg)
-        if i == 'inventory' or i == 'price':
-            if not isinstance(v, int):
-                msg = 'Please make sure the {} is a number'.format(i)
-                abort(406, msg)
+    commonp(k)
+    
 
 
 def product_update_validator(k):
@@ -98,15 +99,7 @@ def product_update_validator(k):
 
     pay_load = ['name', 'inventory', 'price']
     common(pay_load,k)
-    for i, v in k.items():
-        if i == 'name':
-            if isinstance(v, int):
-                msg = 'Name of the product can not be an integer'
-                abort(406, msg)
-        if i == 'inventory' or i == 'price':
-            if not isinstance(v, int):
-                msg = 'Please make sure the {} is a number'.format(i)
-                abort(406, msg)
+    commonp(k)
 
 
 def sales_validator(k):
