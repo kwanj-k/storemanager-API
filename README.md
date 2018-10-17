@@ -1,5 +1,5 @@
 ## StoreManager-API  :department_store:
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![PEP8](https://img.shields.io/badge/code%20style-pep8-green.svg)](https://www.python.org/dev/peps/pep-0008/) [![Build Status](https://travis-ci.com/kwanj-k/storemanager-API.svg?branch=ft-readme-%23161244054)](https://travis-ci.com/kwanj-k/storemanager-API) [![Coverage Status](https://coveralls.io/repos/github/kwanj-k/storemanager-API/badge.svg?branch=ft-readme-%161244054)](https://coveralls.io/github/kwanj-k/storemanager-API?branch=ft-readme-%161244054)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![PEP8](https://img.shields.io/badge/code%20style-pep8-green.svg)](https://www.python.org/dev/peps/pep-0008/) [![Build Status](https://travis-ci.com/kwanj-k/storemanager-API.svg?branch=ft-readme-%23161244054)](https://travis-ci.com/kwanj-k/storemanager-API) [![Coverage Status](https://coveralls.io/repos/github/kwanj-k/storemanager-API/badge.svg?branch=ft-heroku-%23161256506)](https://coveralls.io/github/kwanj-k/storemanager-API?branch=ft-heroku-%23161256506)
 
 ## Summary
 
@@ -8,9 +8,9 @@ Store Manager is a web application that helps store owners manage sales and prod
 ## NOTE
 * The project is managed using PivotalTracker board [click here](https://www.pivotaltracker.com/n/projects/2202775)
 
-* To see documentation [click here]()
+* To see documentation [click here](https://storemanager-v1.herokuapp.com/api/v1/)
 
-* To see API on heroku [click here]()
+* To see API on heroku [click here](https://storemanager-v1.herokuapp.com/api/v1/)
 
 ## Getting Started 
 
