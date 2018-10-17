@@ -13,28 +13,44 @@ from flask_jwt_extended import get_jwt_identity
 from app.api.v1.models.db import Db
 
 
+
+def common(l,d):
+    #receive a list and a dict
+    #let list be l
+    #let dict d
+    for i in d.keys():
+        if i not in l:
+            msg = 'The field {} is not required'.format(i)
+            abort(400, msg)
+    for i in l:
+        if i not in d.keys():
+            msg = 'Please provide the {} field'.format(i)
+            abort(406, msg)
+    for i,v in d.items():
+        if not isinstance(v, int):
+            gv = "".join(v.split())
+            if gv == "":
+                msg = 'The {} can not be empty'.format(i)
+                abort(406, msg)
+    for x in l:
+        if x not in d.keys():
+            msg = 'Please provide the {} field'.format(x)
+            abort(400, msg)
+
+
+
+
+
 def new_store_validator(k):
     """
     A create new store user input validator
     """
 
     p_l = ['name', 'category', 'username', 'email', 'password']
-    in_k = k.keys()
-    for i in in_k:
-        if i not in p_l:
-            msg = 'Please provide name,category,username,email and password only'
-            abort(400, msg)
-    for i in p_l:
-        if i not in in_k:
-            msg = 'The {} field is missing'.format(i)
-            abort(406, msg)
+    common(p_l,k)
     for i, v in k.items():
         if not isinstance(v, str):
             msg = 'The {} field is supposed to be a string'.format(i)
-            abort(406, msg)
-        gv = "".join(v.split())
-        if gv == "":
-            msg = 'The {} can not be empty'.format(i)
             abort(406, msg)
         if i == 'name' or \
                 i == 'category' or i == 'username':
@@ -54,20 +70,7 @@ def new_store_validator(k):
 
 def login_validator(k):
     p_l = ['email', 'password']
-    for i in k.keys():
-        if i not in p_l:
-            msg = 'Please provide email and password only'
-            abort(400, msg)
-    for x in p_l:
-        if x not in k.keys():
-            msg = 'Please provide the {} field'.format(x)
-            abort(400, msg)
-
-    for i, v in k.items():
-        u = "".join(v.split())
-        if u == "":
-            msg = '{} can not be empty'.format(i)
-            abort(406, msg)
+    common(p_l,k)
 
 
 def product_validator(k):
@@ -76,27 +79,16 @@ def product_validator(k):
     """
 
     pay_load = ['name', 'inventory', 'price']
-    for i in k.keys():
-        if i not in pay_load:
-            msg = 'Please provide name,inventory and price of the product only'
-            abort(400, msg)
+    common(pay_load,k)
     for i, v in k.items():
         if i == 'name':
             if isinstance(v, int):
                 msg = 'Name of the product can not be an integer'
                 abort(406, msg)
-            s = "".join(v.split())
-            if s == "":
-                msg = 'The product {} cannot be empty'.format(i)
-                abort(406, msg)
         if i == 'inventory' or i == 'price':
             if not isinstance(v, int):
                 msg = 'Please make sure the {} is a number'.format(i)
                 abort(406, msg)
-    for i in pay_load:
-        if i not in k.keys():
-            msg = 'Please provide the {} of the product'.format(i)
-            abort(400, msg)
 
 
 def product_update_validator(k):
@@ -105,18 +97,11 @@ def product_update_validator(k):
     """
 
     pay_load = ['name', 'inventory', 'price']
-    for i in k.keys():
-        if i not in pay_load:
-            msg = 'Please provide name,inventory and price of the product only'
-            abort(400, msg)
+    common(pay_load,k)
     for i, v in k.items():
         if i == 'name':
             if isinstance(v, int):
                 msg = 'Name of the product can not be an integer'
-                abort(406, msg)
-            s = "".join(v.split())
-            if s == "":
-                msg = 'The product {} cannot be empty'.format(i)
                 abort(406, msg)
         if i == 'inventory' or i == 'price':
             if not isinstance(v, int):
@@ -130,13 +115,7 @@ def sales_validator(k):
     """
 
     pay_load = ['number']
-    for i in k.keys():
-        if i not in pay_load:
-            msg = 'Please provide the number of pruducts only'
-            abort(400, msg)
-    if 'number' not in k.keys():
-        msg = 'Please provide the number of products'
-        abort(400, msg)
+    common(pay_load,k)
     for i in k.values():
         if not isinstance(i, int):
             msg = 'Name of the product can not be an integer'
