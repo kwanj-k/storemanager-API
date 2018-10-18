@@ -118,7 +118,7 @@ class TestProducts(Settings):
                             data=json.dumps(self.no_name),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 406)
 
     def test_get_all_products(self):
         """Test for the get all products endpoint."""

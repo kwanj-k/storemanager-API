@@ -108,7 +108,7 @@ class TestSales(Settings):
                             data=json.dumps(self.no_data),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 406)
 
     def test_make_sale_with_unwanted_data(self):
         """Test for the make sale endpoint."""
