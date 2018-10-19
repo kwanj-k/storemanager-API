@@ -9,7 +9,7 @@ from flask_restplus import Resource
 
 
 # Local application imports
-from app.api.v1.models.accounts import Store, SuperAdmin
+from app.api.v1.models.accounts import Store,User
 from app.api.v1.models.db import Db
 from app.api.v1.views.expect import StoreEtn
 from app.api.common.validators import new_store_validator
@@ -38,7 +38,9 @@ class Stores(Resource):
         Db.stores.append(new_store)
         store = Db.get_store(json_data['name'])
         store_id = store.id
-        new_sadmin = SuperAdmin(store_id,
+        role = 0
+        new_sadmin = User(store_id,
+                                role,
                                 json_data['username'],
                                 json_data['email'],
                                 json_data['password'])

@@ -37,69 +37,86 @@ class Store:
 class User:
     pk = 1
 
-    def __init__(self, store_id, username, email, password):
+    def __init__(self, store_id,role, username, email, password):
         self.id = User.pk
         self.store_id = store_id
         self.username = username
         self.email = email
+        self.role = role
         self.password = generate_password_hash(password)
         User.pk += 1
 
-
-class SuperAdmin(User):
-    role = 0
-
-    def __init__(self, store_id, username, email, password):
-        super().__init__(store_id=store_id, username=username,
-                         email=email, password=password)
-        self.role = SuperAdmin.role
-
     def json_dump(self):
         """
         custom json_dump method to return a custom python dict in response
         """
+        if self.role == 0:
+            self.role = 'SuperAdmin'
+        if self.role == 1:
+            self.role == 'Admin'
+        if self.role == 2:
+            self.role == 'Attendant'
         return dict(
+        
             username=self.username,
             email=self.email,
-            role='SuperAdmin'
-        )
+            role=self.role)
 
 
-class Admin(User):
-    role = 1
+# class SuperAdmin(User):
+#     role = 0
 
-    def __init__(self, store_id, username, email, password):
-        super().__init__(store_id=store_id,
-                         username=username, email=email, password=password)
-        self.role = Admin.role
+#     def __init__(self, store_id, username, email, password):
+#         super().__init__(store_id=store_id, username=username,
+#                          email=email, password=password)
+#         self.role = SuperAdmin.role
 
-    def json_dump(self):
-        """
-        custom json_dump method to return a custom python dict in response
-        """
-        return dict(
-            username=self.username,
-            email=self.email,
-            role='Admin'
-        )
+#     def json_dump(self):
+#         """
+#         custom json_dump method to return a custom python dict in response
+#         """
+#         return dict(
+#             username=self.username,
+#             email=self.email,
+#             role='SuperAdmin'
+#         )
 
 
-class Attendant(User):
-    role = 2
+# class Admin(User):
+#     role = 1
 
-    def __init__(self, store_id, username, email, password):
-        super().__init__(
-            store_id=store_id,
-            username=username,
-            email=email,
-            password=password)
-        self.role = Attendant.role
+#     def __init__(self, store_id, username, email, password):
+#         super().__init__(store_id=store_id,
+#                          username=username, email=email, password=password)
+#         self.role = Admin.role
 
-    def json_dump(self):
-        """
-        custom json_dump method to return a custom python dict in response
-        """
-        return dict(
-            username=self.username,
-            email=self.email,
-            role='Attendant')
+#     def json_dump(self):
+#         """
+#         custom json_dump method to return a custom python dict in response
+#         """
+#         return dict(
+#             username=self.username,
+#             email=self.email,
+#             role='Admin'
+#         )
+
+
+# class Attendant(User):
+#     role = 2
+
+#     def __init__(self, store_id, username, email, password):
+#         super().__init__(
+#             store_id=store_id,
+#             username=username,
+#             email=email,
+#             password=password)
+#         self.role = Attendant.role
+
+#     def json_dump(self):
+#         """
+#         custom json_dump method to return a custom python dict in response
+#         """
+#         return dict(
+#             username=self.username,
+#             email=self.email,
+#             role='Attendant')

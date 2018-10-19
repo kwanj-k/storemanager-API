@@ -87,7 +87,7 @@ Test the following endpoints:
 | EndPoint                       | Functionality                           |
 | -------------------------------|:---------------------------------------:|
 | POST     /stores               | Create a store                          |
-| POST     /login                | Login a user                            |
+| POST     /auth/login                | Login a user                            |
 
 
 ### Attendant endpoints

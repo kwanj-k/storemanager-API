@@ -11,7 +11,7 @@ from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identi
 
 
 # Local application imports
-from app.api.v1.models.accounts import Admin, Attendant
+from app.api.v1.models.accounts import User
 from app.api.v1.models.db import Db
 from app.api.v1.views.expect import UserEtn
 from app.api.common.validators import login_validator, admin_required, super_admin_required
@@ -21,7 +21,7 @@ user_login = UserEtn().users
 v1 = UserEtn().v1
 
 
-@v1.route('login')
+@v1.route('auth/login')
 class Login(Resource):
     @v1.expect(user_login)
     def post(self):
@@ -61,8 +61,10 @@ class AddAdmin(Resource):
         if 'username' in json_data:
             username = json_data['username']
         username = None
-        user_reg = Admin(store_id,
+        role = 1
+        user_reg = User(store_id,
                          username,
+                         role,
                          json_data['email'],
                          json_data['password'])
         for i, item in enumerate(Db.users):
@@ -94,8 +96,10 @@ class AddAttendant(Resource):
         if 'username' in json_data:
             username = json_data['username']
         username = None
-        user_reg = Attendant(store_id,
+        role = 2
+        user_reg = User(store_id,
                              username,
+                             role,
                              json_data['email'],
                              json_data['password'])
         newad = Db.get_user(json_data['email'])
