@@ -8,7 +8,7 @@ import json
 from .base_config import Settings
 from app.api.v1.models.db import Db
 
-l_url = "/api/v1/login"
+l_url = "/api/v1/auth/login"
 s_url = "/api/v1/stores"
 a_url = "/api/v1/admin"
 att_url = "/api/v1/attendant"

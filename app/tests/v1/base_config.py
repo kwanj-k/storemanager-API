@@ -15,7 +15,7 @@ config_name = "testing"
 app = create_app(config_name)
 
 s_url = "/api/v1/stores"
-l_url = "/api/v1/login"
+l_url = "/api/v1/auth/login"
 
 
 class Settings(unittest.TestCase):
