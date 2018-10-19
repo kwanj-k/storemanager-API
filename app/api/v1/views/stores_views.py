@@ -41,7 +41,6 @@ class Stores(Resource):
         role = 0
         new_sadmin = User(store_id,
                                 role,
-                                json_data['username'],
                                 json_data['email'],
                                 json_data['password'])
         Db.users.append(new_sadmin)

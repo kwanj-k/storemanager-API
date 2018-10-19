@@ -15,21 +15,18 @@ class TestStores(Settings):
     data = {
         "name": "Zanaseee",
         "category": "Botique",
-        "username": "kwanj",
         "email": "kwanj@kwanj.com",
         "password": "passwordroot"
     }
     unwanted_data = {
         "name": "Zanas",
         "category": "Botique",
-        "username": "kwanj",
         "email": "kwanj@kwanj.com",
         "password": "passwordroot",
         "tehdeh": "yreugfrjdk"
     }
     m_data = {
         "category": "Botique",
-        "username": "kwanj",
         "email": "kwanj@kwanj.com",
         "password": "passwordroot"
     }

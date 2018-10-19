@@ -37,10 +37,9 @@ class Store:
 class User:
     pk = 1
 
-    def __init__(self, store_id,role, username, email, password):
+    def __init__(self, store_id,role, email, password):
         self.id = User.pk
         self.store_id = store_id
-        self.username = username
         self.email = email
         self.role = role
         self.password = generate_password_hash(password)
@@ -57,7 +56,5 @@ class User:
         if self.role == 2:
             self.role == 'Attendant'
         return dict(
-        
-            username=self.username,
             email=self.email,
             role=self.role)

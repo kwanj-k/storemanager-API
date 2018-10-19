@@ -26,7 +26,6 @@ class Settings(unittest.TestCase):
     new_s = {
         "name": "Zanamoja",
         "category": "Botique",
-        "username": "kwanj",
         "email": "kwanj@kwanjt.com",
         "password": "passwordroot"
     }

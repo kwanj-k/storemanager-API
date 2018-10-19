@@ -18,7 +18,6 @@ class TestAuth(Settings):
     s_data = {
         "name": "Zanas",
         "category": "Botique",
-        "username": "kwanj",
         "email": "kwanj@kwanj.com",
         "password": "passwordroot"
     }

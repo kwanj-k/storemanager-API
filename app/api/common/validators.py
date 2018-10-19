@@ -54,7 +54,7 @@ def new_store_validator(k):
     A create new store user input validator
     """
 
-    p_l = ['name', 'category', 'username', 'email', 'password']
+    p_l = ['name', 'category', 'email', 'password']
     common(p_l,k)
     for i, v in k.items():
         if not isinstance(v, str):

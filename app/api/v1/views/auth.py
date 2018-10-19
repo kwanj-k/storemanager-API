@@ -58,12 +58,8 @@ class AddAdmin(Resource):
             abort(406, msg)
         user = Db.get_user(email=email)
         store_id = user.store_id
-        if 'username' in json_data:
-            username = json_data['username']
-        username = None
         role = 1
         user_reg = User(store_id,
-                         username,
                          role,
                          json_data['email'],
                          json_data['password'])
@@ -93,12 +89,8 @@ class AddAttendant(Resource):
         email = get_jwt_identity()
         user = Db.get_user(email=email)
         store_id = user.store_id
-        if 'username' in json_data:
-            username = json_data['username']
-        username = None
         role = 2
         user_reg = User(store_id,
-                             username,
                              role,
                              json_data['email'],
                              json_data['password'])

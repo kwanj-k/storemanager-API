@@ -14,7 +14,6 @@ class StoreEtn:
     stores = v1.model('Store', {
         'name': fields.String(required=True, description='The name of the store'),
         'category': fields.String(required=True, description='The category of the store'),
-        'username': fields.String(required=True, description='The owner/superadmin of the store'),
         'email': fields.String(required=True, description='The owners/stores email address'),
         'password': fields.String(required=True, description='The owners password')
     })
@@ -28,7 +27,6 @@ class UserEtn:
         'users',
         description='Users')
     users = v1.model('User', {
-        'username': fields.String(description='The name of user'),
         'email': fields.String(required=True, description='The user"s email address'),
         'password': fields.String(required=True, description='The user"s password')
     })
