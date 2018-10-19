@@ -48,7 +48,7 @@ class AddAdmin(Resource):
     def post(self):
         """
         Add Admin
-        """
+        """  
         json_data = request.get_json(force=True)
         login_validator(json_data)
         email = get_jwt_identity()
@@ -82,8 +82,8 @@ class AddAttendant(Resource):
         """
         json_data = request.get_json(force=True)
         login_validator(json_data)
-        newad = Db.get_user(json_data['email'])
-        if newad and newad.role == 2:
+        newatt = Db.get_user(json_data['email'])
+        if newatt and newatt.role == 2:
             msg = "User is Attendant already"
             abort(406, msg)
         email = get_jwt_identity()
@@ -94,9 +94,9 @@ class AddAttendant(Resource):
                              role,
                              json_data['email'],
                              json_data['password'])
-        newad = Db.get_user(json_data['email'])
-        for i, item in enumerate(Db.users):
-            if item == newad:
-                Db.users[i] = user_reg
+        newatt = Db.get_user(json_data['email'])
+        for k, j in enumerate(Db.users):
+            if j == newatt:
+                Db.users[k] = user_reg
         Db.users.append(user_reg)
         return {"status": "Success!", "data": user_reg.json_dump()}, 201
