@@ -82,6 +82,7 @@ Test the following endpoints:
 * A super admin can access both admin and attendant routes
 * An admin can access his/her routes and attendant routes only
 * An attendant can only access her routes
+* One who adds a store is by default the only superadmin
 
 
 ### Unsrestricted endpoints
