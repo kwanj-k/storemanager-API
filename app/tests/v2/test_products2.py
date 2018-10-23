@@ -21,6 +21,7 @@ class TestProducts(Settings):
         "inventory": 12,
         "price": 180
     }
+
     def test_product_addition(self):
         """Test for the add product endpoint."""
         res = self.app.post(p_url,
@@ -39,17 +40,16 @@ class TestProducts(Settings):
 
     def test_get_product_by_id(self):
         """Test for the get product by id endpoint."""
-        
+
         self.app.post(p_url,
                       data=json.dumps(self.data),
                       content_type='application/json')
         res = self.app.get("/api/v2/products/1")
         self.assertEqual(res.status_code, 200)
 
-
     def test_product_update(self):
         """Test for the product update endpoint."""
-       
+
         self.app.post(p_url,
                       data=json.dumps(self.data),
                       content_type='application/json')
@@ -64,7 +64,5 @@ class TestProducts(Settings):
                       data=json.dumps(self.data),
                       content_type='application/json')
         res = self.app.delete('/api/v2/products/1',
-                           content_type='application/json')
+                              content_type='application/json')
         self.assertEqual(res.status_code, 200)
-
-    

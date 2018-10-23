@@ -12,18 +12,18 @@ s_url = "/api/v2/signup"
 a_url = "/api/v2/admin"
 att_url = "/api/v2/attendant"
 
+
 class TestAuth(Settings):
     new_store = {
-        "name":"KidsCity",
-        "category":"Botique",
-        "email":"mwangikwanj@gmail.com",
-        "password":"iamroot"
+        "name": "KidsCity",
+        "category": "Botique",
+        "email": "mwangikwanj@gmail.com",
+        "password": "iamroot"
     }
     login_data = {
-        "email":"mwangikwanj@gmail.com",
-        "password":"iamroot"
+        "email": "mwangikwanj@gmail.com",
+        "password": "iamroot"
     }
-
 
     def test_signup(self):
         """
@@ -33,7 +33,6 @@ class TestAuth(Settings):
                             data=json.dumps(self.new_store),
                             content_type='application/json')
         self.assertEqual(res.status_code, 201)
-        
 
     def test_login(self):
         """Test for the login endpoint."""
@@ -53,6 +52,7 @@ class TestAuth(Settings):
                             data=json.dumps(self.login_data),
                             content_type='application/json')
         self.assertEqual(res.status_code, 201)
+
     def test_addattendant(self):
         """
         Test add attendant
@@ -61,5 +61,3 @@ class TestAuth(Settings):
                             data=json.dumps(self.login_data),
                             content_type='application/json')
         self.assertEqual(res.status_code, 201)
-
-    

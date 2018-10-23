@@ -24,6 +24,7 @@ class TestCategories(Settings):
         "inventory": 24,
         "price": 165
     }
+
     def test_category_addition(self):
         """Test for the add category endpoint."""
         res = self.app.post(c_url,
@@ -38,7 +39,6 @@ class TestCategories(Settings):
                       content_type='application/json')
         res = self.app.get(c_url)
         self.assertEqual(res.status_code, 200)
-
 
     def test_category_update(self):
         """Test for the category update endpoint."""
@@ -56,7 +56,7 @@ class TestCategories(Settings):
                       data=json.dumps(self.data),
                       content_type='application/json')
         res = self.app.delete('/api/v2/categories/1',
-                           content_type='application/json')
+                              content_type='application/json')
         self.assertEqual(res.status_code, 200)
 
     def test_add_product_to_category(self):
