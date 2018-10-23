@@ -3,6 +3,13 @@ A db file meant to mimick a database/datastore
 """
 
 
+
+def method_helper(mlist,mitem):
+    for p in mlist:
+        if p.mitem == mitem:
+            return p
+
+
 class Db:
     """
     Db class contains all the lists of different models
@@ -16,6 +23,7 @@ class Db:
     """
     class method to get a product by id
     """
+
     @classmethod
     def get_p_by_id(cls, id):
         for p in cls.products:
