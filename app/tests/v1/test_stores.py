@@ -36,6 +36,8 @@ class TestStores(Settings):
         res = self.app.post(s_url,
                             data=json.dumps(self.data),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['status'],'Success!')
         self.assertEqual(res.status_code, 201)
 
     def test_store_addition_with_unwanted_data(self):
@@ -43,6 +45,8 @@ class TestStores(Settings):
         res = self.app.post(s_url,
                             data=json.dumps(self.unwanted_data),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['message'],'The field tehdeh is not required')
         self.assertEqual(res.status_code, 400)
 
     def test_store_addition_with_missing_fields(self):
@@ -50,4 +54,6 @@ class TestStores(Settings):
         res = self.app.post(s_url,
                             data=json.dumps(self.m_data),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['message'],'Please provide the name field')
         self.assertEqual(res.status_code, 406)

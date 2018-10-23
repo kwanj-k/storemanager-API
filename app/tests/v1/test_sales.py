@@ -53,6 +53,8 @@ class TestSales(Settings):
                             data=json.dumps(self.s_data),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['status'],'Success!')
         self.assertEqual(res.status_code, 201)
 
     def test_make_sale_with_str_number(self):
@@ -68,6 +70,8 @@ class TestSales(Settings):
                             data=json.dumps(self.str_data),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['message'],'Name of the product can not be an integer')
         self.assertEqual(res.status_code, 406)
 
     def test_selling_non_existing_product(self):
@@ -78,6 +82,8 @@ class TestSales(Settings):
                             data=json.dumps(self.s_data),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['message'],'Product does not exist')
         self.assertEqual(res.status_code, 404)
 
     def test_make_sale_with_morenum_than_available(self):
@@ -93,6 +99,8 @@ class TestSales(Settings):
                             data=json.dumps(self.m_data),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['message'],'There are only 24 monster available')
         self.assertEqual(res.status_code, 400)
 
     def test_make_sale_with_no_num(self):
@@ -108,6 +116,8 @@ class TestSales(Settings):
                             data=json.dumps(self.no_data),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['message'],'Please provide the number field')
         self.assertEqual(res.status_code, 406)
 
     def test_make_sale_with_unwanted_data(self):
@@ -123,6 +133,8 @@ class TestSales(Settings):
                             data=json.dumps(self.unwanted_data),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['message'],'The field yes is not required')
         self.assertEqual(res.status_code, 400)
 
     def test_get_all_sales(self):
@@ -141,6 +153,8 @@ class TestSales(Settings):
         res = self.app.get(
             s_url, headers=dict(
                 Authorization="Bearer " + token))
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['status'],'Success!')
         self.assertEqual(res.status_code, 200)
 
     def test_get_sales_with_no_records(self):
@@ -150,6 +164,8 @@ class TestSales(Settings):
         res = self.app.get(
             s_url, headers=dict(
                 Authorization="Bearer " + token))
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['message'],'There are no sale records')
         self.assertEqual(res.status_code, 404)
 
     def test_get_sale_by_id(self):
@@ -168,6 +184,8 @@ class TestSales(Settings):
         s = Db.get_s_by_product('monster')
         res = self.app.get("/api/v1/sales/{}".format(s.id),
                            headers=dict(Authorization="Bearer " + token))
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['status'],'Success!')
         self.assertEqual(res.status_code, 200)
 
     def test_sale_delete(self):
@@ -185,7 +203,9 @@ class TestSales(Settings):
                       content_type='application/json')
         s = Db.get_s_by_product('monster')
         res = self.app.delete("/api/v1/sales/{}".format(s.id),
-                              headers=dict(Authorization="Bearer " + token),)
+                              headers=dict(Authorization="Bearer " + token))
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['status'],'Deleted!')
         self.assertEqual(res.status_code, 200)
 
     def test_sale_update(self):
@@ -206,5 +226,7 @@ class TestSales(Settings):
                         data=json.dumps(self.ns_data),
                         headers=dict(Authorization="Bearer " + token),
                       content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['status'],'Success!')
         self.assertEqual(res.status_code, 200)
 

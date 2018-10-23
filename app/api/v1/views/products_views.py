@@ -60,8 +60,7 @@ class Products(Resource):
         store_id = user.store_id
         res = [p.json_dump() for p in products if p.store_id == store_id]
         if len(products) < 1:
-            msg = 'There are no products at this time'
-            abort(404, msg)
+            res ={"message":'There are no products at this time'},404
         return res
 
 

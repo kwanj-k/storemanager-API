@@ -34,6 +34,8 @@ class TestAuth(Settings):
         res = self.app.post(l_url,
                             data=json.dumps(self.data),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['status'],'Success!')
         self.assertEqual(res.status_code, 200)
 
     def test_addadmin(self):
@@ -60,4 +62,6 @@ class TestAuth(Settings):
                             data=json.dumps(self.data),
                             headers=dict(Authorization="Bearer " + token),
                             content_type='application/json')
+        res1 = json.loads(res.data.decode())
+        self.assertEqual(res1['status'],'Success!')
         self.assertEqual(res.status_code, 201)

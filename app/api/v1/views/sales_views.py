@@ -94,8 +94,8 @@ class SalesRecord(Resource):
         """
         sales = Db.sales
         if len(sales) < 1:
-            msg = 'There are no sale records'
-            return abort(404, msg)
+            res ={"message":'There are no sale records'},404
+            return res
         email = get_jwt_identity()
         user = Db.get_user(email=email)
         store_id = user.store_id
