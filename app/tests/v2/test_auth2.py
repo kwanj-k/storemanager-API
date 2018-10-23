@@ -53,7 +53,6 @@ class TestAuth(Settings):
                             data=json.dumps(self.login_data),
                             content_type='application/json')
         self.assertEqual(res.status_code, 201)
-
     def test_addattendant(self):
         """
         Test add attendant
