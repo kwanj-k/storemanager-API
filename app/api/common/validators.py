@@ -121,7 +121,7 @@ def admin_required(f):
     def decorator(*args, **kwargs):
         current_user = Db.get_user(email=get_jwt_identity())
         r = current_user.role
-        if r == 'Attendant':
+        if r == 2 or r == 'Attendant':
             msg = "Only administrators can access these resource"
             abort(406, msg)
         return f(*args, **kwargs)
